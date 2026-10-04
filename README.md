@@ -8,6 +8,10 @@ verileriyle testleri çalıştırır. Kişisel notlara erişmez.
 Test sonunda depo kökünde `validation-result-...zip` oluşur. Arkadaşınızın yalnızca
 bu ZIP dosyasını size göndermesi yeterlidir.
 
+Yama baytları `.gitattributes` ile Windows satır sonu dönüşümünden korunur. Koşucu ayrıca
+eski bir Windows checkout'unda yalnız CRLF dönüşümü olmuşsa bunu hash ile doğrulayıp geçici
+LF kopyası kullanır; başka herhangi bir hash farkında çalışmayı reddeder.
+
 - Windows kullanıcısı: [windows/README.md](windows/README.md)
 - macOS kullanıcısı: [macos/README.md](macos/README.md)
 
@@ -41,4 +45,3 @@ README'lerde şu adres kullanılıyor:
 Depoyu başka adla açarsanız iki platform README'sindeki bu adresi değiştirin. GitHub'a
 yüklemeden önce `candidate.patch.sha256` ile yamanın hash'ini doğrulayın. Sonuç ZIP'leri
 `.gitignore` kapsamındadır; test sonucu içerecek yeni bir commit gerekmez.
-

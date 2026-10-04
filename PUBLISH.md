@@ -20,7 +20,7 @@ Dosyaları inceleyin ve commit'i kendiniz oluşturun:
 git status --short
 git diff --no-index /dev/null README.md || true
 sha256sum -c candidate.patch.sha256
-git add .gitignore README.md PUBLISH.md candidate.patch candidate.patch.sha256 compact_probe.py run_validation.py windows macos
+git add .gitattributes .gitignore README.md PUBLISH.md candidate.patch candidate.patch.sha256 compact_probe.py run_validation.py windows macos
 git diff --cached --check
 git diff --cached --stat
 git commit -m "test: add Windows and macOS compact race validation"
@@ -37,4 +37,3 @@ git push -u origin main
 GitHub kullanıcı adı veya depo adı farklıysa önce README dosyalarındaki clone adreslerini
 ve yukarıdaki remote adresini aynı değere güncelleyin. Arkadaşlarınıza depo ana sayfasının
 bağlantısını ve kendi işletim sistemlerine ait README dosyasını gönderin.
-

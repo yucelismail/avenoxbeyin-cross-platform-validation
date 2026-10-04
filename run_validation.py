@@ -17,12 +17,29 @@ import time
 
 ROOT = Path(__file__).resolve().parent
 PATCH = ROOT / 'candidate.patch'
+PATCH_SHA = ROOT / 'candidate.patch.sha256'
 BASE_SHA = '9b9aa95848b7dbee6ba13415c3615671d4445862'
 UPSTREAM = 'https://github.com/avenoxai/avenoxbeyin.git'
 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def expected_patch_digest():
+    return PATCH_SHA.read_text(encoding='utf-8').split()[0].lower()
+
+
+def canonical_patch_bytes():
+    """Accept an exact patch or the sole CRLF conversion made by Windows Git."""
+    expected = expected_patch_digest()
+    raw = PATCH.read_bytes()
+    if hashlib.sha256(raw).hexdigest() == expected:
+        return raw, False
+    normalized = raw.replace(b'\r\n', b'\n')
+    if hashlib.sha256(normalized).hexdigest() == expected:
+        return normalized, True
+    raise ValueError('candidate.patch hash mismatch; change is not only CRLF normalization')
 
 
 def execute(command, cwd, log, env=None):
@@ -49,8 +66,8 @@ def main():
     args = parser.parse_args()
     if sys.version_info < (3, 11):
         raise SystemExit('Python 3.11 veya daha yeni bir sürüm gerekli.')
-    if not PATCH.is_file():
-        raise SystemExit('candidate.patch bulunamadı; depoyu yeniden indirin.')
+    if not PATCH.is_file() or not PATCH_SHA.is_file():
+        raise SystemExit('candidate.patch veya hash dosyası bulunamadı; depoyu yeniden indirin.')
     if shutil.which('git') is None:
         raise SystemExit('Git bulunamadı; platform README dosyasındaki kurulum adımını çalıştırın.')
 
@@ -68,13 +85,18 @@ def main():
                               capture_output=True).stdout.strip(),
         'upstream': args.source,
         'base_sha': BASE_SHA,
-        'candidate_patch_sha256': digest(PATCH),
+        'candidate_patch_sha256': expected_patch_digest(),
         'commands': [],
     }
     exit_code = 1
     try:
         with tempfile.TemporaryDirectory(prefix='beyin-platform-validation-',
                                          ignore_cleanup_errors=True) as temporary:
+            patch_bytes, normalized = canonical_patch_bytes()
+            canonical_patch = Path(temporary) / 'candidate.patch'
+            canonical_patch.write_bytes(patch_bytes)
+            summary['candidate_patch_checkout_sha256'] = digest(PATCH)
+            summary['candidate_patch_crlf_normalized'] = normalized
             source = Path(temporary) / 'source'
             prepare = execute(['git', '-c', 'core.autocrlf=false', 'clone', '--quiet',
                                '--no-checkout', args.source, str(source)], ROOT,
@@ -82,17 +104,27 @@ def main():
             summary['commands'].append(prepare)
             if prepare['exit_code']:
                 raise RuntimeError('upstream clone failed')
+            configure = execute(['git', 'config', 'core.autocrlf', 'false'], source,
+                                results / '00-config-autocrlf.log')
+            summary['commands'].append(configure)
+            if configure['exit_code']:
+                raise RuntimeError('cannot disable autocrlf in source checkout')
+            configure_eol = execute(['git', 'config', 'core.eol', 'lf'], source,
+                                    results / '00-config-eol.log')
+            summary['commands'].append(configure_eol)
+            if configure_eol['exit_code']:
+                raise RuntimeError('cannot select LF in source checkout')
             execute(['git', 'checkout', '--quiet', BASE_SHA], source,
                     results / '00-checkout.log')
             actual = git_text(source, 'rev-parse', 'HEAD')
             if actual != BASE_SHA:
                 raise RuntimeError(f'base mismatch: {actual}')
-            check = execute(['git', 'apply', '--check', str(PATCH)], source,
+            check = execute(['git', 'apply', '--check', str(canonical_patch)], source,
                             results / '00-patch-check.log')
             summary['commands'].append(check)
             if check['exit_code']:
                 raise RuntimeError('candidate patch does not apply')
-            applied = execute(['git', 'apply', str(PATCH)], source,
+            applied = execute(['git', 'apply', str(canonical_patch)], source,
                               results / '00-patch-apply.log')
             summary['commands'].append(applied)
             if applied['exit_code']:
