@@ -1,0 +1,462 @@
+{
+  "environment": {
+    "platform": "linux",
+    "platform_release": "7.0.0-34-generic",
+    "process_start_method": "spawn",
+    "python": "3.12.3",
+    "timeouts_seconds": {
+      "block_probe": 3.0,
+      "join": 25.0,
+      "ready": 20.0
+    }
+  },
+  "fixture": {
+    "chars": 6152,
+    "limits": {
+      "Last-Session.md": 3000,
+      "Threads.md": 8000
+    },
+    "markers": {
+      "existing": "EXISTING_ARCHIVE_MARKER_MUST_REMAIN",
+      "external": "EXTERNAL_EDITOR_CHANGE_MUST_REMAIN",
+      "external_archive": "EXTERNAL_ARCHIVE_CHANGE_MUST_REMAIN",
+      "newest": "NEWEST_CARD_CONTENT_MUST_REMAIN",
+      "old": "OLD_CARD_CONTENT_MUST_REMAIN_RECOVERABLE"
+    },
+    "sha256": "965a4c236dfc5946265b4485b627dcdab7b865db2ee8e26edc3bd454e53b0f3c",
+    "time_utc": "2026-10-03T00:00:00+00:00"
+  },
+  "scenarios": [
+    {
+      "archive_exists": true,
+      "existing_archive": false,
+      "existing_marker_preserved": true,
+      "first": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "gate": "core",
+      "id": "serial_new",
+      "invariant_passed": true,
+      "kind": "serial",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": true,
+      "old_in_live": false,
+      "second": {
+        "file": "needs_rewrite",
+        "overall": "needs_rewrite"
+      }
+    },
+    {
+      "archive_exists": true,
+      "existing_archive": true,
+      "existing_marker_preserved": true,
+      "first": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "gate": "core",
+      "id": "serial_existing",
+      "invariant_passed": true,
+      "kind": "serial",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": true,
+      "old_in_live": false,
+      "second": {
+        "file": "needs_rewrite",
+        "overall": "needs_rewrite"
+      }
+    },
+    {
+      "archive_exists": true,
+      "different_state": false,
+      "different_temp_roots": false,
+      "existing_archive": false,
+      "existing_marker_preserved": true,
+      "fast": {
+        "file": "needs_rewrite",
+        "overall": "needs_rewrite"
+      },
+      "fast_done_before_resume": false,
+      "gate": "core",
+      "id": "issue193_new",
+      "invariant_passed": true,
+      "kind": "concurrent",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": true,
+      "old_in_live": false,
+      "pause": "after_archive_write",
+      "process_exitcodes": {
+        "fast": 0,
+        "slow": 0
+      },
+      "process_ok": true,
+      "slow": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "vault_alias": false
+    },
+    {
+      "archive_exists": true,
+      "different_state": false,
+      "different_temp_roots": false,
+      "existing_archive": true,
+      "existing_marker_preserved": true,
+      "fast": {
+        "file": "needs_rewrite",
+        "overall": "needs_rewrite"
+      },
+      "fast_done_before_resume": false,
+      "gate": "core",
+      "id": "issue193_existing",
+      "invariant_passed": true,
+      "kind": "concurrent",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": true,
+      "old_in_live": false,
+      "pause": "after_archive_write",
+      "process_exitcodes": {
+        "fast": 0,
+        "slow": 0
+      },
+      "process_ok": true,
+      "slow": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "vault_alias": false
+    },
+    {
+      "archive_exists": true,
+      "different_state": false,
+      "different_temp_roots": true,
+      "existing_archive": false,
+      "existing_marker_preserved": true,
+      "fast": {
+        "file": "needs_rewrite",
+        "overall": "needs_rewrite"
+      },
+      "fast_done_before_resume": false,
+      "gate": "core",
+      "id": "pr194_split_tmp_new",
+      "invariant_passed": true,
+      "kind": "concurrent",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": true,
+      "old_in_live": false,
+      "pause": "before_archive_write",
+      "process_exitcodes": {
+        "fast": 0,
+        "slow": 0
+      },
+      "process_ok": true,
+      "slow": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "vault_alias": false
+    },
+    {
+      "archive_exists": true,
+      "different_state": false,
+      "different_temp_roots": true,
+      "existing_archive": true,
+      "existing_marker_preserved": true,
+      "fast": {
+        "file": "needs_rewrite",
+        "overall": "needs_rewrite"
+      },
+      "fast_done_before_resume": false,
+      "gate": "core",
+      "id": "pr194_split_tmp_existing",
+      "invariant_passed": true,
+      "kind": "concurrent",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": true,
+      "old_in_live": false,
+      "pause": "before_archive_write",
+      "process_exitcodes": {
+        "fast": 0,
+        "slow": 0
+      },
+      "process_ok": true,
+      "slow": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "vault_alias": false
+    },
+    {
+      "archive_exists": false,
+      "different_state": true,
+      "different_temp_roots": true,
+      "existing_archive": false,
+      "existing_marker_preserved": true,
+      "fast": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "fast_done_before_resume": true,
+      "gate": "core",
+      "id": "pr195_split_state_new",
+      "invariant_passed": false,
+      "kind": "concurrent",
+      "newest_preserved": true,
+      "old_card_preserved": false,
+      "old_in_archive": false,
+      "old_in_live": false,
+      "pause": "before_archive_write",
+      "process_exitcodes": {
+        "fast": 0,
+        "slow": 0
+      },
+      "process_ok": true,
+      "slow": {
+        "file": "conflict",
+        "overall": "conflict"
+      },
+      "vault_alias": false
+    },
+    {
+      "archive_exists": true,
+      "different_state": true,
+      "different_temp_roots": true,
+      "existing_archive": true,
+      "existing_marker_preserved": true,
+      "fast": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "fast_done_before_resume": true,
+      "gate": "core",
+      "id": "pr195_split_state_existing",
+      "invariant_passed": false,
+      "kind": "concurrent",
+      "newest_preserved": true,
+      "old_card_preserved": false,
+      "old_in_archive": false,
+      "old_in_live": false,
+      "pause": "before_archive_write",
+      "process_exitcodes": {
+        "fast": 0,
+        "slow": 0
+      },
+      "process_ok": true,
+      "slow": {
+        "file": "conflict",
+        "overall": "conflict"
+      },
+      "vault_alias": false
+    },
+    {
+      "archive_exists": false,
+      "different_state": true,
+      "different_temp_roots": true,
+      "existing_archive": false,
+      "existing_marker_preserved": true,
+      "fast": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "fast_done_before_resume": true,
+      "gate": "core",
+      "id": "vault_alias_new",
+      "invariant_passed": false,
+      "kind": "concurrent",
+      "newest_preserved": true,
+      "old_card_preserved": false,
+      "old_in_archive": false,
+      "old_in_live": false,
+      "pause": "before_archive_write",
+      "process_exitcodes": {
+        "fast": 0,
+        "slow": 0
+      },
+      "process_ok": true,
+      "slow": {
+        "file": "conflict",
+        "overall": "conflict"
+      },
+      "vault_alias": true
+    },
+    {
+      "archive_exists": true,
+      "different_state": true,
+      "different_temp_roots": true,
+      "existing_archive": true,
+      "existing_marker_preserved": true,
+      "fast": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "fast_done_before_resume": true,
+      "gate": "core",
+      "id": "vault_alias_existing",
+      "invariant_passed": false,
+      "kind": "concurrent",
+      "newest_preserved": true,
+      "old_card_preserved": false,
+      "old_in_archive": false,
+      "old_in_live": false,
+      "pause": "before_archive_write",
+      "process_exitcodes": {
+        "fast": 0,
+        "slow": 0
+      },
+      "process_ok": true,
+      "slow": {
+        "file": "conflict",
+        "overall": "conflict"
+      },
+      "vault_alias": true
+    },
+    {
+      "archive_exists": false,
+      "compact": {
+        "file": "planned",
+        "overall": "dry_run"
+      },
+      "compact_write_calls": [],
+      "existing_archive": false,
+      "existing_marker_preserved": true,
+      "gate": "core",
+      "id": "dry_run_new",
+      "invariant_passed": true,
+      "kind": "dry_run",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": false,
+      "old_in_live": true,
+      "target_contents_unchanged": true,
+      "vault_and_state_trees_unchanged": true
+    },
+    {
+      "archive_exists": true,
+      "compact": {
+        "file": "planned",
+        "overall": "dry_run"
+      },
+      "compact_write_calls": [],
+      "existing_archive": true,
+      "existing_marker_preserved": true,
+      "gate": "core",
+      "id": "dry_run_existing",
+      "invariant_passed": true,
+      "kind": "dry_run",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": false,
+      "old_in_live": true,
+      "target_contents_unchanged": true,
+      "vault_and_state_trees_unchanged": true
+    },
+    {
+      "archive_exists": false,
+      "compact": {
+        "file": "conflict",
+        "overall": "conflict"
+      },
+      "existing_marker_preserved": true,
+      "external_edit_preserved": true,
+      "gate": "extended",
+      "id": "external_edit_read2_probe",
+      "invariant_passed": true,
+      "kind": "external_edit_read2_probe",
+      "live_reads": 3,
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": false,
+      "old_in_live": true
+    },
+    {
+      "archive_exists": true,
+      "compact": {
+        "file": "compacted",
+        "overall": "needs_rewrite"
+      },
+      "edit_injected": true,
+      "existing_marker_preserved": true,
+      "external_edit_preserved": false,
+      "gate": "extended",
+      "id": "external_edit_final_write",
+      "invariant_passed": false,
+      "kind": "external_edit_final_write",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": true,
+      "old_in_live": false
+    },
+    {
+      "archive_exists": true,
+      "archive_reads": 2,
+      "compact": {
+        "file": "conflict",
+        "overall": "conflict"
+      },
+      "existing_marker_preserved": true,
+      "external_archive_edit_preserved": true,
+      "gate": "extended",
+      "id": "external_archive_after_snapshot",
+      "invariant_passed": true,
+      "kind": "external_archive_after_snapshot",
+      "newest_preserved": true,
+      "old_card_preserved": true,
+      "old_in_archive": false,
+      "old_in_live": true
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit": "1e5b168b13f3779aec8815229616ed35dcd82fa4",
+    "fingerprint": {
+      "files": {
+        "template/.claude/scripts/beyin_v3_compact.py": "08d00fe49d928aa4297318a30fc637291fcc63f7c48a5bff9194a4e684eaf0fa",
+        "template/.claude/scripts/beyin_v3_companion.py": "84c9482540fcab2928395fc2614039ed2f276ff2ffd7fd1ec555a48508542a58",
+        "template/.claude/scripts/beyin_v3_sync.py": "1d9a3160e4e74dea42922b0379cef8719b6f963db80b074a2158d10abb51a97c"
+      },
+      "sha256": "accb9df034342211ae27fd7143cfbfd9a8c5dc459e09f0718ce6ea33bed382c3"
+    },
+    "path": "$SOURCE_CHECKOUT"
+  },
+  "summary": {
+    "all_invariants_passed": false,
+    "core": {
+      "failed": 4,
+      "failed_scenarios": [
+        "pr195_split_state_new",
+        "pr195_split_state_existing",
+        "vault_alias_new",
+        "vault_alias_existing"
+      ],
+      "gate_passed": false,
+      "passed": 8,
+      "scenario_count": 12
+    },
+    "extended": {
+      "all_passed": false,
+      "failed": 1,
+      "failed_scenarios": [
+        "external_edit_final_write"
+      ],
+      "passed": 2,
+      "scenario_count": 3
+    },
+    "failed": 5,
+    "failed_scenarios": [
+      "pr195_split_state_new",
+      "pr195_split_state_existing",
+      "vault_alias_new",
+      "vault_alias_existing",
+      "external_edit_final_write"
+    ],
+    "passed": 10,
+    "scenario_count": 15
+  }
+}

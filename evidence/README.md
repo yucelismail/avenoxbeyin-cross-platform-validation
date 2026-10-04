@@ -23,6 +23,10 @@ The same patched source hash appears in the invariant manifests and the Linux, m
 
 The Windows machine could not create symlinks under its account, so its alias profile reports `vault_alias_supported: false` and `tmp_symlink_supported: false`. Those profiles ran on macOS, where both report `true` and pass. Split-state, new archive, existing archive, progress, persistent lock, I1, and I2 checks passed on Windows.
 
+## Historical failure evidence
+
+Before testing the candidate, the same fixed fixture reproduced the loss on v3.7.1, #194, and the remaining split-state case in #195. The source-pinned JSON and concise table are in [`universal/results/historical/`](universal/results/historical/README.md).
+
 ## Universal harness
 
 - [`universal/invariant_sweep.py`](universal/invariant_sweep.py): bounded single-pause operation sweep, invariant oracle, no-lock mutant, and crash/retry mode.
