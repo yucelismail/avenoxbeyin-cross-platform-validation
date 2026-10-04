@@ -1,0 +1,7 @@
+$ /usr/bin/python3 -m unittest discover -s tests -p v3_stdlib_imports_test.py
+
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.189s
+
+OK

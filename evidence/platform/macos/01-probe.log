@@ -1,0 +1,117 @@
+$ /Library/Frameworks/Python.framework/Versions/3.14/bin/python3 $VALIDATION_REPO/compact_probe.py $TMPDIR/beyin-platform-validation-RUN/source
+
+{
+  "platform": "darwin",
+  "python": "3.14.8 (v3.14.8:8e6e75d9102, Sep 30 2026, 14:34:30) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "rows": [
+    {
+      "existing_archive": false,
+      "split_state": false,
+      "requested_alias_profile": false,
+      "vault_alias_supported": false,
+      "tmp_symlink_supported": false,
+      "fast_finished_before_release": false,
+      "statuses": {
+        "slow": {
+          "overall": "needs_rewrite",
+          "file": "compacted"
+        },
+        "fast": {
+          "overall": "needs_rewrite",
+          "file": "needs_rewrite"
+        }
+      },
+      "invariants": {
+        "I1_full_old_card_preserved": true,
+        "I2_compacted_claim_has_archive": true,
+        "I3_progress": true,
+        "existing_archive_preserved": true,
+        "newest_preserved": true,
+        "persistent_lock_exists": true
+      },
+      "passed": true
+    },
+    {
+      "existing_archive": true,
+      "split_state": false,
+      "requested_alias_profile": false,
+      "vault_alias_supported": false,
+      "tmp_symlink_supported": false,
+      "fast_finished_before_release": false,
+      "statuses": {
+        "slow": {
+          "overall": "needs_rewrite",
+          "file": "compacted"
+        },
+        "fast": {
+          "overall": "needs_rewrite",
+          "file": "needs_rewrite"
+        }
+      },
+      "invariants": {
+        "I1_full_old_card_preserved": true,
+        "I2_compacted_claim_has_archive": true,
+        "I3_progress": true,
+        "existing_archive_preserved": true,
+        "newest_preserved": true,
+        "persistent_lock_exists": true
+      },
+      "passed": true
+    },
+    {
+      "existing_archive": false,
+      "split_state": true,
+      "requested_alias_profile": true,
+      "vault_alias_supported": true,
+      "tmp_symlink_supported": true,
+      "fast_finished_before_release": false,
+      "statuses": {
+        "slow": {
+          "overall": "needs_rewrite",
+          "file": "compacted"
+        },
+        "fast": {
+          "overall": "needs_rewrite",
+          "file": "needs_rewrite"
+        }
+      },
+      "invariants": {
+        "I1_full_old_card_preserved": true,
+        "I2_compacted_claim_has_archive": true,
+        "I3_progress": true,
+        "existing_archive_preserved": true,
+        "newest_preserved": true,
+        "persistent_lock_exists": true
+      },
+      "passed": true
+    },
+    {
+      "existing_archive": true,
+      "split_state": true,
+      "requested_alias_profile": true,
+      "vault_alias_supported": true,
+      "tmp_symlink_supported": true,
+      "fast_finished_before_release": false,
+      "statuses": {
+        "slow": {
+          "overall": "needs_rewrite",
+          "file": "compacted"
+        },
+        "fast": {
+          "overall": "needs_rewrite",
+          "file": "needs_rewrite"
+        }
+      },
+      "invariants": {
+        "I1_full_old_card_preserved": true,
+        "I2_compacted_claim_has_archive": true,
+        "I3_progress": true,
+        "existing_archive_preserved": true,
+        "newest_preserved": true,
+        "persistent_lock_exists": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

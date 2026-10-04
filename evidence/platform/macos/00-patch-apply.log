@@ -1,0 +1,2 @@
+$ git apply $VALIDATION_REPO/candidate.patch
+

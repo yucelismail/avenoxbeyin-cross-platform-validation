@@ -1,0 +1,2 @@
+$ git -c core.autocrlf=false clone --quiet --no-checkout https://github.com/avenoxai/avenoxbeyin.git %TEMP%\beyin-platform-validation-zenb59zz\source
+

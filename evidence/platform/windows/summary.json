@@ -1,0 +1,131 @@
+{
+  "schema": 2,
+  "created_utc": "2026-10-04T17:51:49.196842+00:00",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python": "3.13.14",
+  "python_executable": "C:\\Python313\\python.exe",
+  "git": "git version 2.56.0.windows.1",
+  "upstream": "https://github.com/avenoxai/avenoxbeyin.git",
+  "base_sha": "9b9aa95848b7dbee6ba13415c3615671d4445862",
+  "candidate_patch_sha256": "462e4e4e3975275269031fc5f278c59e67f8483793928fa7993a12f2fdb65f99",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "clone",
+        "--quiet",
+        "--no-checkout",
+        "https://github.com/avenoxai/avenoxbeyin.git",
+        "%TEMP%\\beyin-platform-validation-zenb59zz\\source"
+      ],
+      "exit_code": 0,
+      "seconds": 1.526,
+      "log": "00-clone.log"
+    },
+    {
+      "command": [
+        "git",
+        "config",
+        "core.autocrlf",
+        "false"
+      ],
+      "exit_code": 0,
+      "seconds": 0.066,
+      "log": "00-config-autocrlf.log"
+    },
+    {
+      "command": [
+        "git",
+        "config",
+        "core.eol",
+        "lf"
+      ],
+      "exit_code": 0,
+      "seconds": 0.06,
+      "log": "00-config-eol.log"
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "%TEMP%\\beyin-platform-validation-zenb59zz\\candidate.patch"
+      ],
+      "exit_code": 0,
+      "seconds": 0.076,
+      "log": "00-patch-check.log"
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "%TEMP%\\beyin-platform-validation-zenb59zz\\candidate.patch"
+      ],
+      "exit_code": 0,
+      "seconds": 0.067,
+      "log": "00-patch-apply.log"
+    },
+    {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "%USERPROFILE%\\avenoxbeyin-cross-platform-validation\\compact_probe.py",
+        "%TEMP%\\beyin-platform-validation-zenb59zz\\source"
+      ],
+      "exit_code": 0,
+      "seconds": 13.568,
+      "log": "01-probe.log"
+    },
+    {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "v3_companion_*test.py"
+      ],
+      "exit_code": 0,
+      "seconds": 43.904,
+      "log": "02-companion.log"
+    },
+    {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "v3_product_test.py"
+      ],
+      "exit_code": 0,
+      "seconds": 14.635,
+      "log": "03-product.log"
+    },
+    {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "v3_stdlib_imports_test.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.487,
+      "log": "04-stdlib.log"
+    }
+  ],
+  "candidate_patch_checkout_sha256": "462e4e4e3975275269031fc5f278c59e67f8483793928fa7993a12f2fdb65f99",
+  "candidate_patch_crlf_normalized": false,
+  "patched_compact_sha256": "02dc9b8fb57c93dac289a814a81656d9465f42086a28eac2149ac56b82763c7b",
+  "passed": true,
+  "outcome": "passed"
+}

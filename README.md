@@ -48,3 +48,7 @@ README'lerde şu adres kullanılıyor:
 Depoyu başka adla açarsanız iki platform README'sindeki bu adresi değiştirin. GitHub'a
 yüklemeden önce `candidate.patch.sha256` ile yamanın hash'ini doğrulayın. Sonuç ZIP'leri
 `.gitignore` kapsamındadır; test sonucu içerecek yeni bir commit gerekmez.
+
+## Published evidence
+
+The source-matched invariant, crash/retry, Linux, macOS, and Windows evidence for the candidate is published in [`evidence/`](evidence/README.md).

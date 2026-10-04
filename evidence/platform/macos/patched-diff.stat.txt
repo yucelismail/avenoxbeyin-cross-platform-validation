@@ -1,0 +1,5 @@
+docs/v3/MULTI-MACHINE.md                     |   8 +
+ template/.claude/scripts/beyin_v3_compact.py |  64 +++++---
+ template/.gitignore                          |   1 +
+ tests/v3_companion_hygiene_test.py           | 221 +++++++++++++++++++++++++++
+ 4 files changed, 269 insertions(+), 25 deletions(-)

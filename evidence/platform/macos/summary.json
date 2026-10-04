@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-04T17:35:29.189501+00:00",
+  "platform": "macOS-15.8.1-arm64-arm-64bit-Mach-O",
+  "python": "3.14.8",
+  "python_executable": "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+  "git": "git version 2.50.1 (Apple Git-155)",
+  "upstream": "https://github.com/avenoxai/avenoxbeyin.git",
+  "base_sha": "9b9aa95848b7dbee6ba13415c3615671d4445862",
+  "candidate_patch_sha256": "462e4e4e3975275269031fc5f278c59e67f8483793928fa7993a12f2fdb65f99",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "clone",
+        "--quiet",
+        "--no-checkout",
+        "https://github.com/avenoxai/avenoxbeyin.git",
+        "$TMPDIR/beyin-platform-validation-RUN/source"
+      ],
+      "exit_code": 0,
+      "seconds": 1.353,
+      "log": "00-clone.log"
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "$VALIDATION_REPO/candidate.patch"
+      ],
+      "exit_code": 0,
+      "seconds": 0.016,
+      "log": "00-patch-check.log"
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "$VALIDATION_REPO/candidate.patch"
+      ],
+      "exit_code": 0,
+      "seconds": 0.018,
+      "log": "00-patch-apply.log"
+    },
+    {
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+        "$VALIDATION_REPO/compact_probe.py",
+        "$TMPDIR/beyin-platform-validation-RUN/source"
+      ],
+      "exit_code": 0,
+      "seconds": 12.858,
+      "log": "01-probe.log"
+    },
+    {
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "v3_companion_*test.py"
+      ],
+      "exit_code": 0,
+      "seconds": 26.871,
+      "log": "02-companion.log"
+    },
+    {
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "v3_product_test.py"
+      ],
+      "exit_code": 0,
+      "seconds": 6.469,
+      "log": "03-product.log"
+    },
+    {
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "v3_stdlib_imports_test.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.317,
+      "log": "04-stdlib.log"
+    }
+  ],
+  "patched_compact_sha256": "02dc9b8fb57c93dac289a814a81656d9465f42086a28eac2149ac56b82763c7b",
+  "passed": true
+}

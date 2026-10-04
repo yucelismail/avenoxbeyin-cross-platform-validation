@@ -1,0 +1,7 @@
+$ /Library/Frameworks/Python.framework/Versions/3.14/bin/python3 -m unittest discover -s tests -p v3_product_test.py
+
+...............
+----------------------------------------------------------------------
+Ran 15 tests in 6.327s
+
+OK

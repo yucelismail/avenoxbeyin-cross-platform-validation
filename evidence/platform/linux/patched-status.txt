@@ -1,0 +1,4 @@
+M docs/v3/MULTI-MACHINE.md
+ M template/.claude/scripts/beyin_v3_compact.py
+ M template/.gitignore
+ M tests/v3_companion_hygiene_test.py

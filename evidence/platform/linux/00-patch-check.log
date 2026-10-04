@@ -1,0 +1,2 @@
+$ git apply --check $TMPDIR/beyin-platform-validation-yoazwhbi/candidate.patch
+
