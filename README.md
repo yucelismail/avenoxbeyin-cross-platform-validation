@@ -36,6 +36,9 @@ aracının kilit dosyasını değiştirmesini doğrulamaz.
 - `02-companion.log`, `03-product.log`, `04-stdlib.log`: unittest çıktıları.
 - `patched-diff.stat.txt` ve `patched-status.txt`: uygulanan adayın kısa kimliği.
 
+`summary.json` sonucu `passed`, `tests_failed` veya `setup_failed` olarak sınıflandırır.
+Paylaşılan komut ve log yollarındaki kullanıcı profili ile geçici dizin önekleri maskelenir.
+
 ## Depoyu GitHub'a koyacak kişi için
 
 README'lerde şu adres kullanılıyor:

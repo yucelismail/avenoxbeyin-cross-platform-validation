@@ -22,6 +22,18 @@ BASE_SHA = '9b9aa95848b7dbee6ba13415c3615671d4445862'
 UPSTREAM = 'https://github.com/avenoxai/avenoxbeyin.git'
 
 
+def redact(value):
+    """Remove local account and temporary-directory prefixes from shared evidence."""
+    text = str(value)
+    replacements = [
+        (str(Path(tempfile.gettempdir())), '%TEMP%' if os.name == 'nt' else '$TMPDIR'),
+        (str(Path.home()), '%USERPROFILE%' if os.name == 'nt' else '$HOME'),
+    ]
+    for original, replacement in replacements:
+        text = text.replace(original, replacement)
+    return text
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -47,9 +59,10 @@ def execute(command, cwd, log, env=None):
     completed = subprocess.run(command, cwd=cwd, env=env, text=True, encoding='utf-8',
                                errors='backslashreplace', stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT)
-    log.write_text('$ ' + ' '.join(map(str, command)) + '\n\n' + completed.stdout,
+    display = [redact(item) for item in command]
+    log.write_text('$ ' + ' '.join(display) + '\n\n' + redact(completed.stdout),
                    encoding='utf-8')
-    return {'command': list(map(str, command)), 'exit_code': completed.returncode,
+    return {'command': display, 'exit_code': completed.returncode,
             'seconds': round(time.monotonic() - started, 3), 'log': log.name}
 
 
@@ -76,19 +89,20 @@ def main():
     results = ROOT / 'results' / f'{system}-{stamp}'
     results.mkdir(parents=True)
     summary = {
-        'schema': 1,
+        'schema': 2,
         'created_utc': datetime.now(timezone.utc).isoformat(),
         'platform': platform.platform(),
         'python': platform.python_version(),
-        'python_executable': sys.executable,
+        'python_executable': redact(sys.executable),
         'git': subprocess.run(['git', '--version'], check=True, text=True,
                               capture_output=True).stdout.strip(),
-        'upstream': args.source,
+        'upstream': redact(args.source),
         'base_sha': BASE_SHA,
         'candidate_patch_sha256': expected_patch_digest(),
         'commands': [],
     }
     exit_code = 1
+    setup_complete = False
     try:
         with tempfile.TemporaryDirectory(prefix='beyin-platform-validation-',
                                          ignore_cleanup_errors=True) as temporary:
@@ -129,6 +143,7 @@ def main():
             summary['commands'].append(applied)
             if applied['exit_code']:
                 raise RuntimeError('candidate patch application failed')
+            setup_complete = True
 
             (results / 'patched-status.txt').write_text(git_text(source, 'status', '--short') + '\n',
                                                         encoding='utf-8')
@@ -156,10 +171,12 @@ def main():
                 print(f'  exit={result["exit_code"]}, süre={result["seconds"]}s', flush=True)
             exit_code = 0 if all(item['exit_code'] == 0 for item in summary['commands']) else 1
     except BaseException as exc:
-        summary['runner_error'] = f'{type(exc).__name__}: {exc}'
+        summary['runner_error'] = redact(f'{type(exc).__name__}: {exc}')
         print(summary['runner_error'], file=sys.stderr)
     finally:
         summary['passed'] = exit_code == 0
+        summary['outcome'] = ('passed' if exit_code == 0 else
+                              'tests_failed' if setup_complete else 'setup_failed')
         (results / 'summary.json').write_text(
             json.dumps(summary, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         archive_base = ROOT / f'validation-result-{system}-{stamp}'

@@ -111,13 +111,16 @@ def scenario(repo, root, existing_archive, split_state, use_aliases):
     out.join_thread()
     live_bytes = live.read_bytes()
     archive_bytes = archive.read_bytes() if archive.exists() else b''
+    # Path.write_text uses the host newline. Compare the exact bytes that were placed in
+    # the fixture instead of treating Windows CRLF as data loss.
+    expected_old_card = OLD_CARD.replace('\n', os.linesep).encode('utf-8')
     statuses = {actor: {'overall': result.get('status'),
                         'file': result.get('files', {}).get('Last-Session.md', {}).get('status')}
                 for actor, result in results.items()}
     compacted = any('compacted' in values.values() for values in statuses.values())
     invariants = {
-        'I1_full_old_card_preserved': OLD_CARD.encode() in live_bytes or OLD_CARD.encode() in archive_bytes,
-        'I2_compacted_claim_has_archive': not compacted or OLD_CARD.encode() in archive_bytes,
+        'I1_full_old_card_preserved': expected_old_card in live_bytes or expected_old_card in archive_bytes,
+        'I2_compacted_claim_has_archive': not compacted or expected_old_card in archive_bytes,
         'I3_progress': all(value['overall'] in ALLOWED and value['file'] in ALLOWED
                            for value in statuses.values()),
         'existing_archive_preserved': not existing_archive or b'EXISTING_ARCHIVE_MARKER' in archive_bytes,
@@ -127,6 +130,7 @@ def scenario(repo, root, existing_archive, split_state, use_aliases):
     return {'existing_archive': existing_archive, 'split_state': split_state,
             'requested_alias_profile': use_aliases, 'vault_alias_supported': vault_alias,
             'tmp_symlink_supported': slow_tmp_alias,
+            'fixture_newline': 'CRLF' if os.linesep == '\r\n' else 'LF',
             'fast_finished_before_release': finished_before_release,
             'statuses': statuses, 'invariants': invariants,
             'passed': all(invariants.values())}
@@ -154,4 +158,3 @@ def main():
 if __name__ == '__main__':
     mp.freeze_support()
     raise SystemExit(main())
-
