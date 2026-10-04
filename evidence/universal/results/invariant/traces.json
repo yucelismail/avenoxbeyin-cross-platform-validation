@@ -1,0 +1,390 @@
+{
+  "mutant_no_lock": [
+    {
+      "existing_archive": false,
+      "invariants": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": null
+      },
+      "observation": {
+        "existing_archive_preserved": false,
+        "full_old_card_preserved": true,
+        "hashes": {
+          "archive": "0b46298dd98d51f7d4ac153e531920133f9faf11a6a2c605b56ea1f69a3ae15e",
+          "live": "2bc7b2f6f9d045c25748c76bb687beae6509cdeae492c260f2e3fa618a01cb8b"
+        },
+        "newest_preserved": true,
+        "old_in_archive": true,
+        "old_in_live": false,
+        "sizes": {
+          "archive": 6762,
+          "live": 3162
+        }
+      },
+      "operations": [
+        {
+          "k": 1,
+          "kind": "read",
+          "line": 336,
+          "name": "live_read_initial",
+          "source": "raw = path.read_bytes()",
+          "target": "live"
+        },
+        {
+          "k": 2,
+          "kind": "read",
+          "line": 402,
+          "name": "live_read_prewrite",
+          "source": "current_live = path.read_bytes() if path.exists() else None",
+          "target": "live"
+        },
+        {
+          "k": 3,
+          "kind": "write",
+          "line": 409,
+          "name": "archive_write",
+          "source": "_write(archive, archive_written)",
+          "target": "archive"
+        },
+        {
+          "k": 4,
+          "kind": "read",
+          "line": 412,
+          "name": "live_read_postwrite",
+          "source": "if path.read_bytes() != raw:",
+          "target": "live"
+        },
+        {
+          "k": 5,
+          "kind": "write",
+          "line": 428,
+          "name": "live_write",
+          "source": "_write(path, result['live'])",
+          "target": "live"
+        }
+      ],
+      "result": {
+        "deleted_chars": 0,
+        "directory": "🔮 850-Companion",
+        "dry_run": false,
+        "files": {
+          "Last-Session.md": {
+            "archive": "🔮 850-Companion/Arşiv/Last-Session-2026-10.md",
+            "backup": "written",
+            "chars": 6140,
+            "chars_after": 3154,
+            "limit": 3000,
+            "moved_chars": 3074,
+            "moved_entries": 1,
+            "moved_history": false,
+            "status": "compacted",
+            "within_limit_after": false
+          }
+        },
+        "limits_file": "ok",
+        "model_calls": false,
+        "status": "needs_rewrite"
+      }
+    },
+    {
+      "existing_archive": true,
+      "invariants": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": null
+      },
+      "observation": {
+        "existing_archive_preserved": true,
+        "full_old_card_preserved": true,
+        "hashes": {
+          "archive": "ef8567bb9ed7b68b8ccc7c5aadb2b7b55093ffe6e27e643dedbf1beb5c20fdf0",
+          "live": "2bc7b2f6f9d045c25748c76bb687beae6509cdeae492c260f2e3fa618a01cb8b"
+        },
+        "newest_preserved": true,
+        "old_in_archive": true,
+        "old_in_live": false,
+        "sizes": {
+          "archive": 6425,
+          "live": 3162
+        }
+      },
+      "operations": [
+        {
+          "k": 1,
+          "kind": "read",
+          "line": 336,
+          "name": "live_read_initial",
+          "source": "raw = path.read_bytes()",
+          "target": "live"
+        },
+        {
+          "k": 2,
+          "kind": "read",
+          "line": 372,
+          "name": "archive_snapshot",
+          "source": "previous = archive.read_bytes() if archive.exists() else None",
+          "target": "archive"
+        },
+        {
+          "k": 3,
+          "kind": "read",
+          "line": 402,
+          "name": "live_read_prewrite",
+          "source": "current_live = path.read_bytes() if path.exists() else None",
+          "target": "live"
+        },
+        {
+          "k": 4,
+          "kind": "read",
+          "line": 403,
+          "name": "archive_read_prewrite",
+          "source": "current_archive = archive.read_bytes() if archive.exists() else None",
+          "target": "archive"
+        },
+        {
+          "k": 5,
+          "kind": "write",
+          "line": 409,
+          "name": "archive_write",
+          "source": "_write(archive, archive_written)",
+          "target": "archive"
+        },
+        {
+          "k": 6,
+          "kind": "read",
+          "line": 412,
+          "name": "live_read_postwrite",
+          "source": "if path.read_bytes() != raw:",
+          "target": "live"
+        },
+        {
+          "k": 7,
+          "kind": "write",
+          "line": 428,
+          "name": "live_write",
+          "source": "_write(path, result['live'])",
+          "target": "live"
+        }
+      ],
+      "result": {
+        "deleted_chars": 0,
+        "directory": "🔮 850-Companion",
+        "dry_run": false,
+        "files": {
+          "Last-Session.md": {
+            "archive": "🔮 850-Companion/Arşiv/Last-Session-2026-10.md",
+            "backup": "written",
+            "chars": 6140,
+            "chars_after": 3154,
+            "limit": 3000,
+            "moved_chars": 3074,
+            "moved_entries": 1,
+            "moved_history": false,
+            "status": "compacted",
+            "within_limit_after": false
+          }
+        },
+        "limits_file": "ok",
+        "model_calls": false,
+        "status": "needs_rewrite"
+      }
+    }
+  ],
+  "reference": [
+    {
+      "existing_archive": false,
+      "invariants": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": null
+      },
+      "observation": {
+        "existing_archive_preserved": false,
+        "full_old_card_preserved": true,
+        "hashes": {
+          "archive": "0b46298dd98d51f7d4ac153e531920133f9faf11a6a2c605b56ea1f69a3ae15e",
+          "live": "2bc7b2f6f9d045c25748c76bb687beae6509cdeae492c260f2e3fa618a01cb8b"
+        },
+        "newest_preserved": true,
+        "old_in_archive": true,
+        "old_in_live": false,
+        "sizes": {
+          "archive": 6762,
+          "live": 3162
+        }
+      },
+      "operations": [
+        {
+          "k": 1,
+          "kind": "read",
+          "line": 337,
+          "name": "live_read_initial",
+          "source": "raw = path.read_bytes()",
+          "target": "live"
+        },
+        {
+          "k": 2,
+          "kind": "read",
+          "line": 403,
+          "name": "live_read_prewrite",
+          "source": "current_live = path.read_bytes() if path.exists() else None",
+          "target": "live"
+        },
+        {
+          "k": 3,
+          "kind": "write",
+          "line": 410,
+          "name": "archive_write",
+          "source": "_write(archive, archive_written)",
+          "target": "archive"
+        },
+        {
+          "k": 4,
+          "kind": "read",
+          "line": 413,
+          "name": "live_read_postwrite",
+          "source": "if path.read_bytes() != raw:",
+          "target": "live"
+        },
+        {
+          "k": 5,
+          "kind": "write",
+          "line": 429,
+          "name": "live_write",
+          "source": "_write(path, result['live'])",
+          "target": "live"
+        }
+      ],
+      "result": {
+        "deleted_chars": 0,
+        "directory": "🔮 850-Companion",
+        "dry_run": false,
+        "files": {
+          "Last-Session.md": {
+            "archive": "🔮 850-Companion/Arşiv/Last-Session-2026-10.md",
+            "backup": "written",
+            "chars": 6140,
+            "chars_after": 3154,
+            "limit": 3000,
+            "moved_chars": 3074,
+            "moved_entries": 1,
+            "moved_history": false,
+            "status": "compacted",
+            "within_limit_after": false
+          }
+        },
+        "limits_file": "ok",
+        "model_calls": false,
+        "status": "needs_rewrite"
+      }
+    },
+    {
+      "existing_archive": true,
+      "invariants": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": null
+      },
+      "observation": {
+        "existing_archive_preserved": true,
+        "full_old_card_preserved": true,
+        "hashes": {
+          "archive": "ef8567bb9ed7b68b8ccc7c5aadb2b7b55093ffe6e27e643dedbf1beb5c20fdf0",
+          "live": "2bc7b2f6f9d045c25748c76bb687beae6509cdeae492c260f2e3fa618a01cb8b"
+        },
+        "newest_preserved": true,
+        "old_in_archive": true,
+        "old_in_live": false,
+        "sizes": {
+          "archive": 6425,
+          "live": 3162
+        }
+      },
+      "operations": [
+        {
+          "k": 1,
+          "kind": "read",
+          "line": 337,
+          "name": "live_read_initial",
+          "source": "raw = path.read_bytes()",
+          "target": "live"
+        },
+        {
+          "k": 2,
+          "kind": "read",
+          "line": 373,
+          "name": "archive_snapshot",
+          "source": "previous = archive.read_bytes() if archive.exists() else None",
+          "target": "archive"
+        },
+        {
+          "k": 3,
+          "kind": "read",
+          "line": 403,
+          "name": "live_read_prewrite",
+          "source": "current_live = path.read_bytes() if path.exists() else None",
+          "target": "live"
+        },
+        {
+          "k": 4,
+          "kind": "read",
+          "line": 404,
+          "name": "archive_read_prewrite",
+          "source": "current_archive = archive.read_bytes() if archive.exists() else None",
+          "target": "archive"
+        },
+        {
+          "k": 5,
+          "kind": "write",
+          "line": 410,
+          "name": "archive_write",
+          "source": "_write(archive, archive_written)",
+          "target": "archive"
+        },
+        {
+          "k": 6,
+          "kind": "read",
+          "line": 413,
+          "name": "live_read_postwrite",
+          "source": "if path.read_bytes() != raw:",
+          "target": "live"
+        },
+        {
+          "k": 7,
+          "kind": "write",
+          "line": 429,
+          "name": "live_write",
+          "source": "_write(path, result['live'])",
+          "target": "live"
+        }
+      ],
+      "result": {
+        "deleted_chars": 0,
+        "directory": "🔮 850-Companion",
+        "dry_run": false,
+        "files": {
+          "Last-Session.md": {
+            "archive": "🔮 850-Companion/Arşiv/Last-Session-2026-10.md",
+            "backup": "written",
+            "chars": 6140,
+            "chars_after": 3154,
+            "limit": 3000,
+            "moved_chars": 3074,
+            "moved_entries": 1,
+            "moved_history": false,
+            "status": "compacted",
+            "within_limit_after": false
+          }
+        },
+        "limits_file": "ok",
+        "model_calls": false,
+        "status": "needs_rewrite"
+      }
+    }
+  ]
+}

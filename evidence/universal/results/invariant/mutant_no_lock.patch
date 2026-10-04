@@ -1,0 +1,12 @@
+--- candidate
++++ no-lock
+@@ -315,8 +315,7 @@
+         return {'status': 'within_limit', 'directory': target.relative_to(vault).as_posix(), 'files': {},
+                 'dry_run': False, 'limits_file': 'ok', 'deleted_chars': 0, 'model_calls': False}
+     try:
+-        with _compact_lock(target):
+-            return _compact_files(vault, target, configured, dry_run=False, now=now)
++        return _compact_files(vault, target, configured, dry_run=False, now=now)
+     except TimeoutError as exc:
+         return {'status': 'conflict', 'reason': str(exc), 'files': {}}
+     except _LockError as exc:

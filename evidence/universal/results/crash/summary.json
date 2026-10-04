@@ -1,0 +1,215 @@
+{
+  "all_mutants_killed": true,
+  "anchors": [],
+  "c6c08f1_note": "PR195 1e5b168 follows c6c08f13ad4e5fa1491e1d97e1cb73d2c9678022; compact code unchanged",
+  "candidates": [
+    {
+      "candidate": "reference",
+      "cases": 112,
+      "coverage_errors": 0,
+      "first_violation": null,
+      "invariant_violations": {},
+      "kind": "reference",
+      "mutant_outcome": null,
+      "observed_but_not_pause_seeded": [],
+      "per_isolation": [
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        }
+      ],
+      "trace_lengths": {
+        "False": 5,
+        "True": 7
+      },
+      "violating_cases": 0
+    }
+  ],
+  "case_count": 112,
+  "coverage_valid": true,
+  "elapsed_seconds": 10.096777655999176,
+  "lock_mutant_killed": false,
+  "phase4_external_writer": {
+    "I4": "not_applicable",
+    "status": "not_run"
+  },
+  "phases": [
+    2
+  ],
+  "reference_no_violations": true,
+  "schema_version": 1,
+  "scope": "process os._exit(17) at operation boundaries, followed by compact and retry; no power-loss model",
+  "survivors": []
+}

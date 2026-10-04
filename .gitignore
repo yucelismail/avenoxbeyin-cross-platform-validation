@@ -4,3 +4,7 @@ _work/
 __pycache__/
 *.pyc
 .DS_Store
+
+# Published, sanitized evidence is intentionally versioned.
+!evidence/universal/results/
+!evidence/universal/results/**

@@ -1,0 +1,925 @@
+{
+  "all_mutants_killed": true,
+  "anchors": [],
+  "c6c08f1_note": "PR195 1e5b168 follows c6c08f13ad4e5fa1491e1d97e1cb73d2c9678022; compact code unchanged",
+  "candidates": [
+    {
+      "candidate": "reference",
+      "cases": 112,
+      "coverage_errors": 0,
+      "first_violation": null,
+      "invariant_violations": {},
+      "kind": "reference",
+      "mutant_outcome": null,
+      "observed_but_not_pause_seeded": [],
+      "per_isolation": [
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 6,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 0
+        },
+        {
+          "cases": 8,
+          "first_violation": null,
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 0
+        }
+      ],
+      "trace_lengths": {
+        "False": 5,
+        "True": 7
+      },
+      "violating_cases": 0
+    },
+    {
+      "candidate": "mutant_no_lock",
+      "cases": 112,
+      "coverage_errors": 0,
+      "first_violation": {
+        "case_id": "archive-new__state-shared__tmp-shared__vault-direct__k03-archive_write",
+        "isolation": {
+          "existing_archive": false,
+          "split_state": false,
+          "split_tmp": false,
+          "vault_alias": false
+        },
+        "pause_before": {
+          "k": 3,
+          "kind": "write",
+          "line": 409,
+          "name": "archive_write",
+          "source": "_write(archive, archive_written)",
+          "target": "archive"
+        },
+        "statuses": {
+          "fast": {
+            "file": "compacted",
+            "overall": "needs_rewrite"
+          },
+          "slow": {
+            "file": "conflict",
+            "overall": "conflict"
+          }
+        },
+        "violated": [
+          "I1",
+          "I2"
+        ]
+      },
+      "invariant_violations": {
+        "I1": 16,
+        "I2": 16
+      },
+      "kind": "mutant",
+      "mutant_outcome": "killed",
+      "observed_but_not_pause_seeded": [
+        "archive_read_rollback_check",
+        "archive_rollback"
+      ],
+      "per_isolation": [
+        {
+          "cases": 6,
+          "first_violation": {
+            "case_id": "archive-new__state-shared__tmp-shared__vault-direct__k03-archive_write",
+            "isolation": {
+              "existing_archive": false,
+              "split_state": false,
+              "split_tmp": false,
+              "vault_alias": false
+            },
+            "pause_before": {
+              "k": 3,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 6,
+          "first_violation": {
+            "case_id": "archive-new__state-shared__tmp-shared__vault-alias__k03-archive_write",
+            "isolation": {
+              "existing_archive": false,
+              "split_state": false,
+              "split_tmp": false,
+              "vault_alias": true
+            },
+            "pause_before": {
+              "k": 3,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 6,
+          "first_violation": {
+            "case_id": "archive-new__state-shared__tmp-split__vault-direct__k03-archive_write",
+            "isolation": {
+              "existing_archive": false,
+              "split_state": false,
+              "split_tmp": true,
+              "vault_alias": false
+            },
+            "pause_before": {
+              "k": 3,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 6,
+          "first_violation": {
+            "case_id": "archive-new__state-shared__tmp-split__vault-alias__k03-archive_write",
+            "isolation": {
+              "existing_archive": false,
+              "split_state": false,
+              "split_tmp": true,
+              "vault_alias": true
+            },
+            "pause_before": {
+              "k": 3,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": false,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 6,
+          "first_violation": {
+            "case_id": "archive-new__state-split__tmp-shared__vault-direct__k03-archive_write",
+            "isolation": {
+              "existing_archive": false,
+              "split_state": true,
+              "split_tmp": false,
+              "vault_alias": false
+            },
+            "pause_before": {
+              "k": 3,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 6,
+          "first_violation": {
+            "case_id": "archive-new__state-split__tmp-shared__vault-alias__k03-archive_write",
+            "isolation": {
+              "existing_archive": false,
+              "split_state": true,
+              "split_tmp": false,
+              "vault_alias": true
+            },
+            "pause_before": {
+              "k": 3,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 6,
+          "first_violation": {
+            "case_id": "archive-new__state-split__tmp-split__vault-direct__k03-archive_write",
+            "isolation": {
+              "existing_archive": false,
+              "split_state": true,
+              "split_tmp": true,
+              "vault_alias": false
+            },
+            "pause_before": {
+              "k": 3,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 6,
+          "first_violation": {
+            "case_id": "archive-new__state-split__tmp-split__vault-alias__k03-archive_write",
+            "isolation": {
+              "existing_archive": false,
+              "split_state": true,
+              "split_tmp": true,
+              "vault_alias": true
+            },
+            "pause_before": {
+              "k": 3,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": false,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 8,
+          "first_violation": {
+            "case_id": "archive-existing__state-shared__tmp-shared__vault-direct__k05-archive_write",
+            "isolation": {
+              "existing_archive": true,
+              "split_state": false,
+              "split_tmp": false,
+              "vault_alias": false
+            },
+            "pause_before": {
+              "k": 5,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 8,
+          "first_violation": {
+            "case_id": "archive-existing__state-shared__tmp-shared__vault-alias__k05-archive_write",
+            "isolation": {
+              "existing_archive": true,
+              "split_state": false,
+              "split_tmp": false,
+              "vault_alias": true
+            },
+            "pause_before": {
+              "k": 5,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 8,
+          "first_violation": {
+            "case_id": "archive-existing__state-shared__tmp-split__vault-direct__k05-archive_write",
+            "isolation": {
+              "existing_archive": true,
+              "split_state": false,
+              "split_tmp": true,
+              "vault_alias": false
+            },
+            "pause_before": {
+              "k": 5,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 8,
+          "first_violation": {
+            "case_id": "archive-existing__state-shared__tmp-split__vault-alias__k05-archive_write",
+            "isolation": {
+              "existing_archive": true,
+              "split_state": false,
+              "split_tmp": true,
+              "vault_alias": true
+            },
+            "pause_before": {
+              "k": 5,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": true,
+            "split_state": false,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 8,
+          "first_violation": {
+            "case_id": "archive-existing__state-split__tmp-shared__vault-direct__k05-archive_write",
+            "isolation": {
+              "existing_archive": true,
+              "split_state": true,
+              "split_tmp": false,
+              "vault_alias": false
+            },
+            "pause_before": {
+              "k": 5,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": false
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 8,
+          "first_violation": {
+            "case_id": "archive-existing__state-split__tmp-shared__vault-alias__k05-archive_write",
+            "isolation": {
+              "existing_archive": true,
+              "split_state": true,
+              "split_tmp": false,
+              "vault_alias": true
+            },
+            "pause_before": {
+              "k": 5,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": false,
+            "vault_alias": true
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 8,
+          "first_violation": {
+            "case_id": "archive-existing__state-split__tmp-split__vault-direct__k05-archive_write",
+            "isolation": {
+              "existing_archive": true,
+              "split_state": true,
+              "split_tmp": true,
+              "vault_alias": false
+            },
+            "pause_before": {
+              "k": 5,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": false
+          },
+          "violating_cases": 1
+        },
+        {
+          "cases": 8,
+          "first_violation": {
+            "case_id": "archive-existing__state-split__tmp-split__vault-alias__k05-archive_write",
+            "isolation": {
+              "existing_archive": true,
+              "split_state": true,
+              "split_tmp": true,
+              "vault_alias": true
+            },
+            "pause_before": {
+              "k": 5,
+              "kind": "write",
+              "line": 409,
+              "name": "archive_write",
+              "source": "_write(archive, archive_written)",
+              "target": "archive"
+            },
+            "statuses": {
+              "fast": {
+                "file": "compacted",
+                "overall": "needs_rewrite"
+              },
+              "slow": {
+                "file": "conflict",
+                "overall": "conflict"
+              }
+            },
+            "violated": [
+              "I1",
+              "I2"
+            ]
+          },
+          "isolation": {
+            "existing_archive": true,
+            "split_state": true,
+            "split_tmp": true,
+            "vault_alias": true
+          },
+          "violating_cases": 1
+        }
+      ],
+      "trace_lengths": {
+        "False": 5,
+        "True": 7
+      },
+      "violating_cases": 16
+    }
+  ],
+  "case_count": 224,
+  "coverage_valid": true,
+  "elapsed_seconds": 86.93402327700096,
+  "lock_mutant_killed": true,
+  "phase4_external_writer": {
+    "I4": "not_applicable",
+    "status": "not_run"
+  },
+  "phases": [
+    1,
+    3
+  ],
+  "reference_no_violations": true,
+  "schema_version": 1,
+  "scope": "single-pause two-actor operation-boundary sweep",
+  "survivors": []
+}
