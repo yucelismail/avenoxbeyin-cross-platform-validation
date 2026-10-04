@@ -1,0 +1,6 @@
+results/
+validation-result-*.zip
+_work/
+__pycache__/
+*.pyc
+.DS_Store
