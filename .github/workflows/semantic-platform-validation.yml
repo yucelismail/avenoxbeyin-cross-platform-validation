@@ -1,0 +1,31 @@
+name: Main semantic receipt platform validation
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'sync/semantic/**'
+      - 'run_semantic_validation.py'
+      - '.github/workflows/semantic-platform-validation.yml'
+jobs:
+  semantic-contract:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Verify main-only candidate and semantic mutants
+        run: python run_semantic_validation.py
+      - name: Upload contract evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: semantic-evidence-${{ matrix.os }}
+          path: semantic-validation-*.zip
+          if-no-files-found: error

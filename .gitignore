@@ -10,3 +10,5 @@ __pycache__/
 # Published, sanitized evidence is intentionally versioned.
 !evidence/universal/results/
 !evidence/universal/results/**
+semantic-validation-*/
+semantic-validation-*.zip

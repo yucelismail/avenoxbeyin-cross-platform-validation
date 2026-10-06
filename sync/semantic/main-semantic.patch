@@ -1,0 +1,42 @@
+diff --git a/template/.claude/scripts/beyin_v3_sync.py b/template/.claude/scripts/beyin_v3_sync.py
+index 475af66..a96adfb 100644
+--- a/template/.claude/scripts/beyin_v3_sync.py
++++ b/template/.claude/scripts/beyin_v3_sync.py
+@@ -538,15 +538,33 @@ class SyncEngine:
+         except (ValueError, OSError) as exc:
+             return [{'source': 'receipts', 'reason': str(exc)}]
+         warnings = []
+-        known = {_hash(row[0]) + '.md' for row in db.execute('SELECT id FROM receipts')}
+         for name in names:
+-            # Indexed receipts stay authoritative; other names were never written by receipt().
+-            if name in known or not re.fullmatch(r'[0-9a-f]{64}\.md', name):
++            # Indexed receipts remain authoritative; changed-directory scans detect collisions.
++            if not re.fullmatch(r'[0-9a-f]{64}\.md', name):
+                 continue
+             rel = 'receipts/' + name
+             try:
+                 event = self._receipt_event(rel)
+-                db.execute('INSERT OR IGNORE INTO receipts VALUES (?,?)', (event['event_id'], _json(event)))
++                row = db.execute('SELECT payload FROM receipts WHERE id=?', (event['event_id'],)).fetchone()
++                if row:
++                    previous = json.loads(row[0])
++                    # Match submit_receipt and recovery: metadata is not event identity.
++                    differing = [field for field in ('summary', 'refs') if previous[field] != event[field]]
++                    if differing:
++                        stored = {field: previous[field] for field in ('summary', 'refs')}
++                        disk = {field: event[field] for field in ('summary', 'refs')}
++                        warnings.append({
++                            'source': rel, 'event_id': event['event_id'],
++                            'reason': 'event id collision; indexed receipt preserved',
++                            'differing_fields': differing,
++                            'stored_semantic': stored, 'disk_semantic': disk,
++                            'stored_semantic_sha256': _hash(_json(stored)),
++                            'disk_semantic_sha256': _hash(_json(disk)),
++                            'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. '
++                                          'Restore this source to the indexed summary/refs, or preserve the distinct '
++                                          'event by submitting it with a new event_id. Do not delete either version blindly.'})
++                else:
++                    db.execute('INSERT INTO receipts VALUES (?,?)', (event['event_id'], _json(event)))
+             except (ValueError, OSError, UnicodeError) as exc:
+                 warnings.append({'source': rel, 'reason': str(exc)})
+         # Rescan while a source is invalid, and while an entry added in the same timestamp tick

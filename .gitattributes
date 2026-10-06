@@ -6,3 +6,4 @@ candidate.patch.sha256 text eol=lf
 *.sh text eol=lf
 *.ps1 text eol=lf
 *.md text eol=lf
+sync/semantic/main-semantic.patch -text
