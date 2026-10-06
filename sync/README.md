@@ -23,22 +23,19 @@ Windows PowerShell:
 py -3 run_sync_validation.py
 ```
 
-Koşucu sabit commit'leri geçici dizine indirir ve 16 koşu yapar. Sonunda
+Koşucu sabit commit'leri geçici dizine indirir ve 24 probe koşusu ve düzeltilmiş adayın 48 sync birim testini yapar. Sonunda
 `sync-validation-....zip` oluşur. ZIP'i paylaşın; yalnız ekran görüntüsü yeterli değildir.
 Bu sonuçlar iki fiziksel cihaz testi değil, her platformda iki bağımsız cihaz
 kopyasının sentetik entegrasyonudur. Gerçek ağ/cloud sync doğrulanmaz.
 
 ## Sonuçları yorumlama
 
-- `passed` / exit 0: ölçülen bütün kontroller geçti.
-- `contract_violations` / exit 1: deney çalıştı ve önerilen güvenlik sözleşmesi
-  ihlali ölçüldü. Mevcut adaylarda bunun görülmesi bekleniyor.
+- `fixed_candidate_passed` / exit 0: düzeltilmiş adayın 8 probe koşusu ve 48 sync testi geçti; eski main/#210 başarısızlıkları raporda karşılaştırma olarak kalır.
+- `fixed_candidate_failed` / exit 1: düzeltilmiş aday probe veya sync birim testi kapısını geçemedi.
 - `coverage_failed` veya `setup_failed` / exit 2: kurulum/çalıştırma sorunu;
   ürün ihlali olarak yorumlanmaz.
 
-GitHub Actions Linux, macOS ve Windows'ta paketi çalıştırır. Mevcut kodda
-kanıtlanan ihlaller nedeniyle workflow kırmızı olabilir; ZIP'teki summary ve vaka
-sonuçları incelenmelidir. Testin çalışması ürünün güvenlik kapısını geçtiği anlamına gelmez.
+GitHub Actions Linux, macOS ve Windows'ta paketi çalıştırır. Kabul kapısı `fixed` adayına uygulanır. main ve pr210 tarihsel negatif karşılaştırmalardır; sonuçları silinmez veya başarılıya çevrilmez. Probe tek başına çalıştırıldığında aynı 0/1/2 davranışını korur.
 
 S2/S3/S4/S5/S6/S10'un ilgili alt senaryoları ölçülür. S1 tam korunumu, crash/retry,
 CRLF, negatif mutantlar ve bütün senkronizasyon zamanlamaları henüz kapsanmıyor.
@@ -47,3 +44,17 @@ event içeriği değişiminin görünürlüğü önerilen kabul sözleşmesidir.
 
 Eski #198 testi için kökteki `run_validation.py` ve önceki platform yönergeleri
 kullanılmaya devam eder.
+
+## İlk ürün düzeltme adayı
+
+`receipt-visibility.patch`, sabit #210 tabanına hash doğrulamasıyla uygulanır. Aynı event
+kimliğinin payload'ı değiştiğinde SQLite'taki eski kayıt ve diskteki yeni dosya korunur;
+`degraded` ve kaynak/event kimliği/iki payload hash'i bildirilir. Sessiz UPDATE yapılmaz.
+Tekrar sync uyarıyı sürdürür. Çakışma çözülene kadar projeksiyon eski SQLite kaydını
+korur; bu temiz mutabakat iddiası değildir. Bu ihtiyatlı politika #210'un otomatik
+cache mutabakatını değiştirir ve bakımcı değerlendirmesi gerektirir.
+
+Yama deneysel adaydır; upstream merge veya kullanıcı vault'una kurulum yapılmadı.
+Uyarıyı onaylama/onarım CLI'ı, state sıfırlamasında eski payload'ın kalıcılığı ve
+dizin mtime'ı değişmeyen düzenlemeler henüz çözülmedi. Bu sürüm S1–S10'un tamamını
+geçmiş bir üretim çözümü olarak sunulmaz.

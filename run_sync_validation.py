@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fetch pinned sync candidates, run synthetic probes, produce a shareable ZIP."""
 import argparse
+import hashlib
 from datetime import datetime, timezone
 import json
 import os
@@ -49,6 +50,27 @@ def main():
                 if actual != sha:
                     raise ValueError('candidate SHA mismatch: ' + name)
                 paths[name] = checkout
+            patch = ROOT / 'sync/receipt-visibility.patch'
+            patch_sha = hashlib.sha256(patch.read_bytes()).hexdigest()
+            if patch_sha != patch.with_suffix('.patch.sha256').read_text().strip():
+                raise ValueError('candidate patch hash mismatch')
+            fixed = Path(tmp) / 'fixed'
+            subprocess.run(['git', 'clone', '--no-hardlinks', str(paths['pr210']), str(fixed)],
+                           check=True, capture_output=True, text=True, timeout=60)
+            subprocess.run(['git', '-C', str(fixed), 'checkout', '--detach', CANDIDATES['pr210']],
+                           check=True, capture_output=True, text=True, timeout=30)
+            subprocess.run(['git', '-C', str(fixed), 'apply', '--check', str(patch)],
+                           check=True, capture_output=True, text=True, timeout=30)
+            subprocess.run(['git', '-C', str(fixed), 'apply', str(patch)],
+                           check=True, capture_output=True, text=True, timeout=30)
+            paths['fixed'] = fixed
+            summary['fixed_base_sha'] = CANDIDATES['pr210']
+            summary['fixed_patch_sha256'] = patch_sha
+            product = subprocess.run([sys.executable, '-m', 'unittest', 'discover',
+                                      '-s', 'tests', '-p', 'v3_sync_test.py'], cwd=fixed,
+                                     capture_output=True, text=True, timeout=120)
+            (output / 'fixed-product-tests.log').write_text(safe(product.stdout + product.stderr), encoding='utf-8')
+            summary['fixed_product_tests_exit'] = product.returncode
             command = [sys.executable, str(ROOT / 'sync/run_probes.py'), '--output', str(output / 'results')]
             for name, checkout in paths.items():
                 command += ['--candidate', name + '=' + str(checkout)]
@@ -58,12 +80,16 @@ def main():
                 raise RuntimeError('unexpected runner exit')
             manifest = json.loads((output / 'results/manifest.json').read_text(encoding='utf-8'))
             summary.update(manifest)
-            summary['status'] = ('coverage_failed' if manifest['coverage_errors'] else
-                                 'contract_violations' if manifest['violating_runs'] else 'passed')
             rows = [json.loads(line) for line in
                     (output / 'results/cases.jsonl').read_text(encoding='utf-8').splitlines()]
+            fixed_rows = [r for r in rows if r['candidate'] == 'fixed']
+            fixed_failed = sum(any(v is False for v in r.get('invariants', {}).values()) for r in fixed_rows)
+            summary['fixed_violating_runs'] = fixed_failed
+            summary['status'] = ('coverage_failed' if manifest['coverage_errors'] or len(fixed_rows) != 8 else
+                                 'fixed_candidate_failed' if fixed_failed or product.returncode else
+                                 'fixed_candidate_passed')
             details = ['## Multi-device sync probe results', '',
-                       'Measured on pinned historical candidates; failures remain visible until a product fix is tested.', '',
+                       'main/pr210 are historical comparisons. The acceptance gate checks the patched fixed candidate; baseline failures remain in this report.', '',
                        '| Candidate | Case | Repeat | Failed checks | Coverage error |',
                        '| --- | --- | ---: | --- | --- |']
             for row in rows:
@@ -81,7 +107,8 @@ def main():
             if os.environ.get('GITHUB_STEP_SUMMARY'):
                 with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as handle:
                     handle.write(report)
-            code = proc.returncode
+            code = (2 if summary['status'] == 'coverage_failed' else
+                    1 if summary['status'] == 'fixed_candidate_failed' else 0)
         except Exception as exc:
             summary['error'] = safe(f'{type(exc).__name__}: {exc}')
             if isinstance(exc, subprocess.CalledProcessError):

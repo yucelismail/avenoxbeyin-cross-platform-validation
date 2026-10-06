@@ -1,0 +1,65 @@
+diff --git a/template/.claude/scripts/beyin_v3_sync.py b/template/.claude/scripts/beyin_v3_sync.py
+index 9b4f770..cfa0f7f 100644
+--- a/template/.claude/scripts/beyin_v3_sync.py
++++ b/template/.claude/scripts/beyin_v3_sync.py
+@@ -599,9 +599,14 @@ class SyncEngine:
+                 row = db.execute('SELECT payload FROM receipts WHERE id=?', (event['event_id'],)).fetchone()
+                 if row:
+                     if row[0] != payload:
+-                        # Authoritative Markdown source changed on disk (e.g. multi-machine git sync/rebase).
+-                        # Reconcile local SQLite cache with disk so projections (daily/v3, outcomes.md) stay in sync (#205).
+-                        db.execute('UPDATE receipts SET payload=? WHERE id=?', (payload, event['event_id']))
++                        # A reused immutable event identity is not ordinary cache repair.
++                        # Keep both versions (existing SQLite row and disk source) and
++                        # report the unresolved divergence on every rescan. Do not
++                        # silently replace the event or claim a clean synchronization.
++                        warnings.append({'source': rel, 'event_id': event['event_id'],
++                                         'reason': 'receipt payload divergence; existing event preserved; manual resolution required',
++                                         'stored_payload_sha256': _hash(row[0]),
++                                         'disk_payload_sha256': _hash(payload)})
+                 else:
+                     db.execute('INSERT OR IGNORE INTO receipts VALUES (?,?)', (event['event_id'], payload))
+             except (ValueError, OSError, UnicodeError) as exc:
+diff --git a/tests/v3_sync_test.py b/tests/v3_sync_test.py
+index 0272b9f..e6badfc 100644
+--- a/tests/v3_sync_test.py
++++ b/tests/v3_sync_test.py
+@@ -913,9 +913,8 @@ class ReceiptStateResetTest(unittest.TestCase):
+         if outcomes.exists():
+             self.assertNotIn('<<<<<<<', outcomes.read_text(encoding='utf-8'))
+ 
+-    def test_receipt_modified_by_remote_git_sync_reconciles_cleanly(self):
+-        # #205 Point 1: when a remote machine's receipt version is chosen during git merge,
+-        # sync() reconciles SQLite with the authoritative Markdown source on disk.
++    def test_receipt_modified_by_remote_git_sync_preserves_and_reports_divergence(self):
++        # Same-event changes remain unresolved: preserve source and existing event.
+         state = self.root / 'state_recon'
+         engine = self.module.SyncEngine(self.vault, state)
+         engine.sync()
+@@ -934,13 +933,22 @@ class ReceiptStateResetTest(unittest.TestCase):
+ 
+         report = engine.sync()
+         self.assertEqual(report['conflicts'], [])
+-        self.assertEqual(report['warnings'], [])
++        self.assertEqual(report['status'], 'degraded')
++        warning = next(w for w in report['warnings'] if w['source'] == f'receipts/{h}.md')
++        self.assertIn('payload divergence', warning['reason'])
++        self.assertNotEqual(warning['stored_payload_sha256'], warning['disk_payload_sha256'])
++        disk_before_retry = rfile.read_bytes()
+         with engine.store._connect() as db:
+             payload = json.loads(db.execute('SELECT payload FROM receipts WHERE id=?', (eid,)).fetchone()[0])
+-            self.assertEqual(payload['summary'], 'Summary from remote machine.')
++            self.assertEqual(payload['summary'], 'Summary from local machine.')
+         outcomes2 = (self.vault / 'knowledge/v3/outcomes.md').read_text(encoding='utf-8')
+-        self.assertIn('Summary from remote machine.', outcomes2)
+-        self.assertNotIn('Summary from local machine.', outcomes2)
++        self.assertIn('Summary from local machine.', outcomes2)
++        self.assertNotIn('Summary from remote machine.', outcomes2)
++        retry = engine.sync()
++        self.assertEqual(retry['status'], 'degraded')
++        self.assertIn(warning, retry['warnings'])
++        self.assertEqual(rfile.read_bytes(), disk_before_retry)
++        self.assertEqual((self.vault / 'knowledge/v3/outcomes.md').read_text(encoding='utf-8'), outcomes2)
+ 
+     def test_file_sync_conflict_copies_in_receipts_are_reported_and_not_indexed(self):
+         # #205: iCloud/Dropbox create conflict files like <hash> 2.md or <hash> (conflicted copy).md in receipts/
