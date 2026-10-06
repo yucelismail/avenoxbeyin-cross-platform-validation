@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import platform
 from pathlib import Path
 import subprocess
 import sys
@@ -29,7 +30,7 @@ def main():
     args = parser.parse_args()
     output = ROOT / ('semantic-validation-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
     output.mkdir()
-    summary = {'base_sha': BASE, 'status': 'setup_failed', 'runs': []}
+    summary = {'base_sha': BASE, 'platform': platform.platform(), 'python': platform.python_version(), 'status': 'setup_failed', 'runs': []}
     code = 2
     try:
         with tempfile.TemporaryDirectory(prefix='semantic-validation-') as td:
@@ -39,6 +40,7 @@ def main():
                     run(cmd).check_returncode()
             if run(['git','-C',str(base),'rev-parse','HEAD']).stdout.strip() != BASE:
                 raise ValueError('base SHA mismatch')
+            run(['git','-C',str(base),'diff','--quiet','HEAD','--','template/.claude/scripts','tests']).check_returncode()
             fixed = Path(td)/'fixed'
             run(['git','clone','--no-hardlinks',str(base),str(fixed)]).check_returncode()
             patch = ROOT/'sync/semantic/main-semantic.patch'

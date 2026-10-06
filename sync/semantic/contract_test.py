@@ -73,6 +73,12 @@ class ReceiptContract(unittest.TestCase):
             self.assertIn('stored_semantic_sha256', warnings[0])
             self.assertIn('disk_semantic_sha256', warnings[0])
             self.check_preserved(incoming)
+        # Restoring the original source is a concrete, nondestructive resolution.
+        staging = self.path.with_suffix('.restore')
+        staging.write_bytes(self.original)
+        os.replace(staging, self.path)
+        self.assertEqual(self.engine.sync()['status'], 'succeeded')
+        self.check_preserved(self.original)
 
     def test_created_at_metadata(self):
         self.check_metadata('created_at', '2026-10-05T12:00:00+00:00')
