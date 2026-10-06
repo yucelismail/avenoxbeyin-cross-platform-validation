@@ -1,0 +1,55 @@
+{
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "python": "3.13.15",
+  "candidates": {
+    "main": "9b9aa95848b7dbee6ba13415c3615671d4445862",
+    "pr210": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+    "fixed": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+    "silent_receipt_update": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+    "skip_receipt_rescan": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+    "no_conflict_copy_filter": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+    "always_succeeded": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+    "delete_quarantined_note_copy": "bf7f993ffc90085cd5c430098e537bab72ddf8f6"
+  },
+  "status": "fixed_candidate_passed",
+  "fixed_base_sha": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+  "fixed_patch_sha256": "f94dc9846d2399d9d800ba061da0e149dfac73fe925f8a495ff81b6ffe52d0e3",
+  "fixed_product_tests_exit": 0,
+  "probe_sha256": "c98dba49f890f34437ae570cedc9b8fc08e840c31e530cdac9cf4ce07b57a794",
+  "runs": 96,
+  "coverage_errors": 0,
+  "violating_runs": 40,
+  "mutation_results": {
+    "silent_receipt_update": {
+      "killed_runs": 6,
+      "designated_case": "replacement",
+      "designated_invariant": "S2",
+      "designated_kill_verified": true
+    },
+    "skip_receipt_rescan": {
+      "killed_runs": 8,
+      "designated_case": "inplace_changed",
+      "designated_invariant": "S3",
+      "designated_kill_verified": true
+    },
+    "no_conflict_copy_filter": {
+      "killed_runs": 2,
+      "designated_case": "conflict_copy",
+      "designated_invariant": "S5",
+      "designated_kill_verified": true
+    },
+    "always_succeeded": {
+      "killed_runs": 8,
+      "designated_case": "replacement",
+      "designated_invariant": "S4",
+      "designated_kill_verified": true
+    },
+    "delete_quarantined_note_copy": {
+      "killed_runs": 2,
+      "designated_case": "conflict_copy",
+      "designated_invariant": "S5",
+      "designated_kill_verified": true
+    }
+  },
+  "fixed_violating_runs": 0
+}

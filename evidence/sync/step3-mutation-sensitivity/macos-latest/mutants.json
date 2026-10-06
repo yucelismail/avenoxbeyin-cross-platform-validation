@@ -1,0 +1,27 @@
+{
+  "silent_receipt_update": {
+    "source_sha256": "a2905d086bf7bd0eb730e895c0571201b7fbf74710aec90e96309b3a1744f2b5",
+    "designated_case": "replacement",
+    "designated_invariant": "S2"
+  },
+  "skip_receipt_rescan": {
+    "source_sha256": "85cee1c3744eb760f1cd9b84e82cb1e43d4fc17a966d5ace780462762c11f2e5",
+    "designated_case": "inplace_changed",
+    "designated_invariant": "S3"
+  },
+  "no_conflict_copy_filter": {
+    "source_sha256": "8d43af749e4fa875664dfecae3a5adc5d665dd5f987cecf2bc8bed3f93c530cb",
+    "designated_case": "conflict_copy",
+    "designated_invariant": "S5"
+  },
+  "always_succeeded": {
+    "source_sha256": "df826348fab260fbf5c8f4029ea13f686352f036cfcc11fa6e650518e6208ffe",
+    "designated_case": "replacement",
+    "designated_invariant": "S4"
+  },
+  "delete_quarantined_note_copy": {
+    "source_sha256": "fac513cbcee89eb2553ff44e69b23df6856b7fdce1beb045211c10150a84533e",
+    "designated_case": "conflict_copy",
+    "designated_invariant": "S5"
+  }
+}
