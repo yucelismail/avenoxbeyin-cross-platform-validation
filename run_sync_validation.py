@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fetch pinned sync candidates, run synthetic probes, produce a shareable ZIP."""
 import argparse
+from evidence_redaction import redact_evidence
 import hashlib
 from datetime import datetime, timezone
 import json
@@ -35,7 +36,7 @@ def main():
             for path, replacement in ((str(Path.home()), '$HOME'), (tmp, '$TMPDIR')):
                 text = text.replace(path, replacement)
                 text = text.replace(path.replace('\\', '/'), replacement)
-            return text
+            return redact_evidence(text, roots=(ROOT,))
         try:
             paths = {}
             for name, sha in CANDIDATES.items():

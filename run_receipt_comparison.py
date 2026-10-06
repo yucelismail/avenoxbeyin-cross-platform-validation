@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Pinned main/ours/peer comparison. No status preference in shared acceptance."""
 import argparse
+from evidence_redaction import redact_evidence
 from datetime import datetime,timezone
 import hashlib,json,os,platform,subprocess,sys,tempfile,zipfile
 from pathlib import Path
@@ -63,10 +64,10 @@ def main():
                 env.pop('SYNC_CANDIDATE',None)
                 proc=command([sys.executable,'-m','unittest','discover','-s','tests','-p','v3_*test.py'],cwd=paths[name],env=env,timeout=900)
                 text=proc.stdout+proc.stderr
-                (output/(name+'-full-v3.log')).write_text(text,encoding='utf-8')
+                (output/(name+'-full-v3.log')).write_text(redact_evidence(text,roots=(ROOT,)),encoding='utf-8')
                 report['product'][name]={'exit':proc.returncode}
                 proc=command([sys.executable,str(paths[name]/'scripts/evaluate_v3.py')],env=env)
-                (output/(name+'-retrieval.json')).write_text(proc.stdout,encoding='utf-8');(output/(name+'-retrieval.stderr')).write_text(proc.stderr,encoding='utf-8')
+                (output/(name+'-retrieval.json')).write_text(redact_evidence(proc.stdout,roots=(ROOT,)),encoding='utf-8');(output/(name+'-retrieval.stderr')).write_text(redact_evidence(proc.stderr,roots=(ROOT,)),encoding='utf-8')
                 report['product'][name]['retrieval_exit']=proc.returncode
             complete=len(report['common'])==12 and all(r['tests']==17 and not r['errors'] and r['exit'] in (0,1) for r in report['common'])
             positive=all(r['exit']==0 for r in report['common'] if r['candidate'] in ('ours','peer'))
@@ -77,11 +78,11 @@ def main():
             code=0 if report['status']=='passed' else 1 if complete else 2
     except Exception as exc:
         report['error']=type(exc).__name__+': '+str(exc)
-    (output/'summary.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (output/'summary.json').write_text(redact_evidence(json.dumps(report,ensure_ascii=False,indent=2),roots=(ROOT,))+'\n',encoding='utf-8')
     lines=['# Receipt policy comparison','',f"Status: **{report['status']}**",'', '| Candidate | Repeat | Tests | Failures | Errors |','| --- | ---: | ---: | --- | --- |']
     for r in report['common']:lines.append(f"| {r['candidate']} | {r['repeat']} | {r['tests']} | {', '.join(r['failures']) or 'none'} | {', '.join(r['errors']) or 'none'} |")
     lines+=['','Shared tests accept either degraded/warnings or conflict/conflicts when source visibility and preservation hold. Strict schema mismatches are reported separately and are not product failures. Three effect scenarios record behavior without declaring one status policy correct.','',f"Product results: `{json.dumps(report['product'])}`"]
-    text='\n'.join(lines)+'\n';(output/'REPORT.md').write_text(text,encoding='utf-8')
+    text='\n'.join(lines)+'\n';(output/'REPORT.md').write_text(redact_evidence(text,roots=(ROOT,)),encoding='utf-8')
     if os.environ.get('GITHUB_STEP_SUMMARY'):
         with open(os.environ['GITHUB_STEP_SUMMARY'],'a',encoding='utf-8') as f:f.write(text)
     with zipfile.ZipFile(output.with_suffix('.zip'),'w',zipfile.ZIP_DEFLATED) as z:

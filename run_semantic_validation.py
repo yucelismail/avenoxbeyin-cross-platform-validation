@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Main-only semantic receipt acceptance gate; historical sync harness is preserved."""
 import argparse
+from evidence_redaction import redact_evidence
 import hashlib
 import json
 import os
@@ -50,7 +51,7 @@ def main():
             run(['git','-C',str(fixed),'apply','--check',str(patch)]).check_returncode()
             run(['git','-C',str(fixed),'apply',str(patch)]).check_returncode()
             product = run([sys.executable,'-m','unittest','discover','-s','tests','-p','v3_sync_test.py'],cwd=fixed)
-            (output/'product-tests.log').write_text(product.stdout+product.stderr,encoding='utf-8')
+            (output/'product-tests.log').write_text(redact_evidence(product.stdout+product.stderr, roots=(ROOT,)),encoding='utf-8')
             summary['product_exit'] = product.returncode
             candidates = {'main': base, 'fixed': fixed}
             original = (fixed/SOURCE).read_text(encoding='utf-8')
@@ -89,7 +90,7 @@ def main():
             code = 0 if summary['status']=='passed' else 1 if coverage else 2
     except Exception as exc:
         summary['error'] = type(exc).__name__+': '+str(exc)
-    (output/'summary.json').write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8')
+    (output/'summary.json').write_text(redact_evidence(json.dumps(summary,indent=2),roots=(ROOT,))+'\n',encoding='utf-8')
     lines = ['# Main semantic receipt validation','',f"Result: **{summary['status']}**",'',f'Pinned base: `{BASE}`','',
              '| Candidate | Repeat | Tests | Assertion failures | Setup errors |','| --- | ---: | ---: | --- | --- |']
     for r in summary['runs']:

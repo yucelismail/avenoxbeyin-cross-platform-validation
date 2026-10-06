@@ -1,15 +1,14 @@
 # Test deposunu GitHub'a yükleme
 
-Bu depo yerelde hazırlandı; henüz commit veya push yapılmadı. Önce GitHub web sitesinde
-`yucelismail/avenoxbeyin-cross-platform-validation` adlı boş bir **public** depo oluşturun.
-README, `.gitignore` veya lisans ekleme seçeneklerini işaretlemeyin.
+Bu public doğrulama deposu yayımlanmıştır. Aşağıdaki komutlar yerel checkout için
+GitHub noreply kimliğiyle katkı hazırlama örneğidir.
 
-Yerel Git kimliğini kontrol edin. `EMAIL` yerine GitHub hesabınızda doğrulanmış adresi
-veya GitHub noreply adresinizi yazın:
+Yerel Git kimliğini kontrol edin. `EMAIL` yerine GitHub hesabınızın noreply adresini
+yazın; kişisel e-posta adresini public commit metadata'sına koymayın.
 
 ```bash
-cd /home/yucel/avenoxbeyin-cross-platform-validation
-git config --local user.name "İsmail Yücel"
+cd /path/to/avenoxbeyin-cross-platform-validation
+git config --local user.name "GITHUB_USERNAME"
 git config --local user.email "EMAIL"
 git var GIT_AUTHOR_IDENT
 ```

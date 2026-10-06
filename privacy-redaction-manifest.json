@@ -1,0 +1,14 @@
+{
+  "scope": "current tracked evidence; historical commits and previous artifacts are not rewritten",
+  "transform": "machine path and non-synthetic email / credential-pattern redaction only",
+  "changed_files": {
+    "evidence/sync/main-semantic-contract/macos-latest/summary.json": {
+      "before_sha256": "7f16bf015fe4518419e29696adfee702325eb21f1744a9d616daea6fb63850a8",
+      "after_sha256": "238775b50fc321acd0903417bd2a5f9ea4e1a017153bfde8d9ea077f8925cc14"
+    },
+    "evidence/sync/main-semantic-contract/ubuntu-latest/summary.json": {
+      "before_sha256": "d98c0c0468c20237db293dce34fefaa1ed2546fab7ecc78a282c4cd08038181c",
+      "after_sha256": "67d4f1cbce7299a059249ffba0c66dd6a6b2e44f1c69a33cf8a0fa72875d6de1"
+    }
+  }
+}

@@ -52,7 +52,7 @@ oluşturulmaya çalışılır.
 open -R "$(ls -t validation-result-*.zip | head -n 1)"
 ```
 
-Finder seçili ZIP dosyasını gösterir. Bu ZIP'i Yücel'e gönderin. ZIP içeriğini
+Finder seçili ZIP dosyasını gösterir. Bu ZIP'i testleri değerlendiren bakımcıyla paylaşın. ZIP içeriğini
 değiştirmeyin ve yalnız ekran görüntüsü göndermeyin.
 
 Bir hata olursa Terminal'deki son metni de kopyalayıp ZIP ile birlikte gönderin.

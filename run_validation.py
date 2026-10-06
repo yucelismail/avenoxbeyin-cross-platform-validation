@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare the pinned candidate, run the portable validation, and zip evidence."""
 from __future__ import annotations
+from evidence_redaction import redact_evidence
 
 from datetime import datetime, timezone
 import argparse
@@ -31,7 +32,7 @@ def redact(value):
     ]
     for original, replacement in replacements:
         text = text.replace(original, replacement)
-    return text
+    return redact_evidence(text)
 
 
 def digest(path):

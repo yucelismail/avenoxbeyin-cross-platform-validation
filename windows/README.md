@@ -45,7 +45,7 @@ oluşturulmaya çalışılır.
 Get-ChildItem .\validation-result-*.zip | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { explorer.exe /select,"$($_.FullName)" }
 ```
 
-Dosya Gezgini seçili ZIP dosyasını gösterir. Bu ZIP'i Yücel'e gönderin. ZIP içeriğini
+Dosya Gezgini seçili ZIP dosyasını gösterir. Bu ZIP'i testleri değerlendiren bakımcıyla paylaşın. ZIP içeriğini
 değiştirmeyin ve yalnız ekran görüntüsü göndermeyin.
 
 Bir hata olursa PowerShell'deki son metni de kopyalayıp ZIP ile birlikte gönderin.
