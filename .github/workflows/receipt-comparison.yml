@@ -1,0 +1,32 @@
+name: Receipt status policy comparison
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'sync/comparison/**'
+      - 'run_receipt_comparison.py'
+      - '.github/workflows/receipt-comparison.yml'
+permissions:
+  contents: read
+jobs:
+  compare:
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Shared contract, mutants, full V3 and frozen retrieval
+        run: python run_receipt_comparison.py
+      - name: Preserve comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: receipt-comparison-${{ matrix.os }}
+          path: receipt-comparison-*.zip
+          if-no-files-found: error

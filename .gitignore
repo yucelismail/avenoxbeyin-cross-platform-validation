@@ -12,3 +12,5 @@ __pycache__/
 !evidence/universal/results/**
 semantic-validation-*/
 semantic-validation-*.zip
+receipt-comparison-*/
+receipt-comparison-*.zip
