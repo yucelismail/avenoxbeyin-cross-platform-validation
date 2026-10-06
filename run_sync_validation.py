@@ -60,6 +60,27 @@ def main():
             summary.update(manifest)
             summary['status'] = ('coverage_failed' if manifest['coverage_errors'] else
                                  'contract_violations' if manifest['violating_runs'] else 'passed')
+            rows = [json.loads(line) for line in
+                    (output / 'results/cases.jsonl').read_text(encoding='utf-8').splitlines()]
+            details = ['## Multi-device sync probe results', '',
+                       'Measured on pinned historical candidates; failures remain visible until a product fix is tested.', '',
+                       '| Candidate | Case | Repeat | Failed checks | Coverage error |',
+                       '| --- | --- | ---: | --- | --- |']
+            for row in rows:
+                failed = ', '.join(k for k, value in row.get('invariants', {}).items() if value is False)
+                details.append('| ' + ' | '.join((row['candidate'], row['case'], str(row['repeat']),
+                                                 failed or 'none', row.get('coverage_error') or 'none')) + ' |')
+                if failed or row.get('coverage_error'):
+                    print(row['candidate'], row['case'], 'repeat', row['repeat'],
+                          'failed checks:', failed or 'none', 'coverage:', row.get('coverage_error') or 'none')
+            details += ['', 'S2: event content change visibility; S3: disk/SQLite agreement; '
+                        'S4: source-specific divergence warning; S5: conflict-copy quarantine.', '',
+                        'Node runtime/runner notices are separate from these measured receipt contract failures.']
+            report = '\n'.join(details) + '\n'
+            (output / 'REPORT.md').write_text(report, encoding='utf-8')
+            if os.environ.get('GITHUB_STEP_SUMMARY'):
+                with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as handle:
+                    handle.write(report)
             code = proc.returncode
         except Exception as exc:
             summary['error'] = safe(f'{type(exc).__name__}: {exc}')

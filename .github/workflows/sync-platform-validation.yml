@@ -16,15 +16,15 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - name: Run pinned two-vault receipt and real Git probes
         run: python run_sync_validation.py
       - name: Upload evidence even when invariants fail
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: sync-evidence-${{ matrix.os }}
           path: sync-validation-*.zip
