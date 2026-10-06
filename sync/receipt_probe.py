@@ -130,8 +130,8 @@ def probe(repo, case):
         if case == 'same_payload':
             invariants['positive_control'] = first['status'] == 'succeeded' and after == initial
         if case == 'conflict_copy':
-            copy_source = str(target.relative_to(a.root))
-            note_source = str(note_copy.relative_to(a.root))
+            copy_source = target.relative_to(a.root).as_posix()
+            note_source = note_copy.relative_to(a.root).as_posix()
             invariants['S5'] = (target.read_bytes() == incoming and note_copy.is_file() and
                                 copy_source not in after['sources'] and note_source not in after['sources'] and
                                 visible(first, copy_source) and visible(first, note_source))
