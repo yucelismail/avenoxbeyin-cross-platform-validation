@@ -1,0 +1,36 @@
+{
+  "run_id": 37514368443,
+  "validation_commit": "968229440cd500adfe9c5692d1270048c8dcdedb",
+  "platforms": {
+    "macos-latest": {
+      "zip_sha256": "6972928177dc39c7ae76280d07e74ad32745ecf51e90f8a948cfb331343d1695",
+      "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+      "status": "passed",
+      "mutation_kills": {
+        "full_payload_compare": true,
+        "skip_existing_receipts": true,
+        "always_succeeded": true
+      }
+    },
+    "ubuntu-latest": {
+      "zip_sha256": "e019a0f895cf42b9ac9e1fa37cd22d67a51a8fb337cb81d0387910fb2fa8c36b",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "status": "passed",
+      "mutation_kills": {
+        "full_payload_compare": true,
+        "skip_existing_receipts": true,
+        "always_succeeded": true
+      }
+    },
+    "windows-latest": {
+      "zip_sha256": "f0cad983547d352f7ec94d8501f643b1c042ff6173212267dcf9ff9ee7a5dc1e",
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "status": "passed",
+      "mutation_kills": {
+        "full_payload_compare": true,
+        "skip_existing_receipts": true,
+        "always_succeeded": true
+      }
+    }
+  }
+}

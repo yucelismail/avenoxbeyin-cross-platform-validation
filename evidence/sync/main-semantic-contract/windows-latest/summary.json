@@ -1,0 +1,175 @@
+{
+  "base_sha": "9b9aa95848b7dbee6ba13415c3615671d4445862",
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "python": "3.13.15",
+  "status": "passed",
+  "runs": [
+    {
+      "tests": 8,
+      "failures": [
+        "test_refs_conflict",
+        "test_summary_conflict"
+      ],
+      "errors": [],
+      "details": [
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 96, in test_refs_conflict\n    self.check_conflict('refs', ['notes/other.md'])\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 93, in test_summary_conflict\n    self.check_conflict('summary', 'Different summary')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [], 'conflicts': []}\n"
+      ],
+      "candidate": "main",
+      "repeat": 1,
+      "exit": 1,
+      "source_sha256": "1d9a3160e4e74dea42922b0379cef8719b6f963db80b074a2158d10abb51a97c"
+    },
+    {
+      "tests": 8,
+      "failures": [
+        "test_refs_conflict",
+        "test_summary_conflict"
+      ],
+      "errors": [],
+      "details": [
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 96, in test_refs_conflict\n    self.check_conflict('refs', ['notes/other.md'])\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 93, in test_summary_conflict\n    self.check_conflict('summary', 'Different summary')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [], 'conflicts': []}\n"
+      ],
+      "candidate": "main",
+      "repeat": 2,
+      "exit": 1,
+      "source_sha256": "1d9a3160e4e74dea42922b0379cef8719b6f963db80b074a2158d10abb51a97c"
+    },
+    {
+      "tests": 8,
+      "failures": [],
+      "errors": [],
+      "details": [],
+      "candidate": "fixed",
+      "repeat": 1,
+      "exit": 0,
+      "source_sha256": "568bf5deb3175aaf5812bb811366999f7531a1384af718ae593d15e586962721"
+    },
+    {
+      "tests": 8,
+      "failures": [],
+      "errors": [],
+      "details": [],
+      "candidate": "fixed",
+      "repeat": 2,
+      "exit": 0,
+      "source_sha256": "568bf5deb3175aaf5812bb811366999f7531a1384af718ae593d15e586962721"
+    },
+    {
+      "tests": 8,
+      "failures": [
+        "test_created_at_metadata",
+        "test_harness_metadata",
+        "test_refs_conflict",
+        "test_session_metadata",
+        "test_summary_conflict"
+      ],
+      "errors": [],
+      "details": [
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 84, in test_created_at_metadata\n    self.check_metadata('created_at', '2026-10-05T12:00:00+00:00')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 54, in check_metadata\n    self.assertEqual(result['status'], 'succeeded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'degraded' != 'succeeded'\n- degraded\n+ succeeded\n : {'status': 'degraded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['summary', 'refs'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 90, in test_harness_metadata\n    self.check_metadata('harness', 'codex')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 54, in check_metadata\n    self.assertEqual(result['status'], 'succeeded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'degraded' != 'succeeded'\n- degraded\n+ succeeded\n : {'status': 'degraded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['summary', 'refs'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 96, in test_refs_conflict\n    self.check_conflict('refs', ['notes/other.md'])\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 71, in check_conflict\n    self.assertEqual(warnings[0]['differing_fields'], [field])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['summary', 'refs'] != ['refs']\n\nFirst differing element 0:\n'summary'\n'refs'\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'refs'\n\n- ['summary', 'refs']\n+ ['refs']\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 87, in test_session_metadata\n    self.check_metadata('session', 'other-session')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 54, in check_metadata\n    self.assertEqual(result['status'], 'succeeded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'degraded' != 'succeeded'\n- degraded\n+ succeeded\n : {'status': 'degraded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['summary', 'refs'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 93, in test_summary_conflict\n    self.check_conflict('summary', 'Different summary')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 71, in check_conflict\n    self.assertEqual(warnings[0]['differing_fields'], [field])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['summary', 'refs'] != ['summary']\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'refs'\n\n- ['summary', 'refs']\n+ ['summary']\n"
+      ],
+      "candidate": "full_payload_compare",
+      "repeat": 1,
+      "exit": 1,
+      "source_sha256": "dccf6ad3a038cd3704a475186e8eaad842d6047eba9dd26dd001374a6df35240"
+    },
+    {
+      "tests": 8,
+      "failures": [
+        "test_created_at_metadata",
+        "test_harness_metadata",
+        "test_refs_conflict",
+        "test_session_metadata",
+        "test_summary_conflict"
+      ],
+      "errors": [],
+      "details": [
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 84, in test_created_at_metadata\n    self.check_metadata('created_at', '2026-10-05T12:00:00+00:00')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 54, in check_metadata\n    self.assertEqual(result['status'], 'succeeded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'degraded' != 'succeeded'\n- degraded\n+ succeeded\n : {'status': 'degraded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['summary', 'refs'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 90, in test_harness_metadata\n    self.check_metadata('harness', 'codex')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 54, in check_metadata\n    self.assertEqual(result['status'], 'succeeded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'degraded' != 'succeeded'\n- degraded\n+ succeeded\n : {'status': 'degraded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['summary', 'refs'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 96, in test_refs_conflict\n    self.check_conflict('refs', ['notes/other.md'])\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 71, in check_conflict\n    self.assertEqual(warnings[0]['differing_fields'], [field])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['summary', 'refs'] != ['refs']\n\nFirst differing element 0:\n'summary'\n'refs'\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'refs'\n\n- ['summary', 'refs']\n+ ['refs']\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 87, in test_session_metadata\n    self.check_metadata('session', 'other-session')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 54, in check_metadata\n    self.assertEqual(result['status'], 'succeeded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'degraded' != 'succeeded'\n- degraded\n+ succeeded\n : {'status': 'degraded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['summary', 'refs'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 93, in test_summary_conflict\n    self.check_conflict('summary', 'Different summary')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 71, in check_conflict\n    self.assertEqual(warnings[0]['differing_fields'], [field])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['summary', 'refs'] != ['summary']\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'refs'\n\n- ['summary', 'refs']\n+ ['summary']\n"
+      ],
+      "candidate": "full_payload_compare",
+      "repeat": 2,
+      "exit": 1,
+      "source_sha256": "dccf6ad3a038cd3704a475186e8eaad842d6047eba9dd26dd001374a6df35240"
+    },
+    {
+      "tests": 8,
+      "failures": [
+        "test_refs_conflict",
+        "test_summary_conflict"
+      ],
+      "errors": [],
+      "details": [
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 96, in test_refs_conflict\n    self.check_conflict('refs', ['notes/other.md'])\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 93, in test_summary_conflict\n    self.check_conflict('summary', 'Different summary')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [], 'conflicts': []}\n"
+      ],
+      "candidate": "skip_existing_receipts",
+      "repeat": 1,
+      "exit": 1,
+      "source_sha256": "6a1795215093748d79ca529f4f4c3202a25e7c32dc2a0667cd3c40fd2552a9ba"
+    },
+    {
+      "tests": 8,
+      "failures": [
+        "test_refs_conflict",
+        "test_summary_conflict"
+      ],
+      "errors": [],
+      "details": [
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 96, in test_refs_conflict\n    self.check_conflict('refs', ['notes/other.md'])\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 93, in test_summary_conflict\n    self.check_conflict('summary', 'Different summary')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [], 'conflicts': []}\n"
+      ],
+      "candidate": "skip_existing_receipts",
+      "repeat": 2,
+      "exit": 1,
+      "source_sha256": "6a1795215093748d79ca529f4f4c3202a25e7c32dc2a0667cd3c40fd2552a9ba"
+    },
+    {
+      "tests": 8,
+      "failures": [
+        "test_refs_conflict",
+        "test_summary_conflict"
+      ],
+      "errors": [],
+      "details": [
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 96, in test_refs_conflict\n    self.check_conflict('refs', ['notes/other.md'])\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['refs'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Original summary', 'refs': ['notes/other.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': 'ee3dd7d4e2212e8250306b520e164f647da302e207ffc1b5967ed9ed8a0e0584', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 93, in test_summary_conflict\n    self.check_conflict('summary', 'Different summary')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['summary'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Different summary', 'refs': ['notes/source.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': '48afbc9a07290f82fc3730c76662684736770bea31c3c347137e62b03fff07b6', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n"
+      ],
+      "candidate": "always_succeeded",
+      "repeat": 1,
+      "exit": 1,
+      "source_sha256": "c4cbfc75972bbae9be12b4cdc6e82c45f3721aac2fcd27710fb3f97398709475"
+    },
+    {
+      "tests": 8,
+      "failures": [
+        "test_refs_conflict",
+        "test_summary_conflict"
+      ],
+      "errors": [],
+      "details": [
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 96, in test_refs_conflict\n    self.check_conflict('refs', ['notes/other.md'])\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['refs'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Original summary', 'refs': ['notes/other.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': 'ee3dd7d4e2212e8250306b520e164f647da302e207ffc1b5967ed9ed8a0e0584', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n",
+        "Traceback (most recent call last):\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 93, in test_summary_conflict\n    self.check_conflict('summary', 'Different summary')\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\a\\avenoxbeyin-cross-platform-validation\\avenoxbeyin-cross-platform-validation\\sync\\semantic\\contract_test.py\", line 67, in check_conflict\n    self.assertEqual(result['status'], 'degraded', result)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'succeeded' != 'degraded'\n- succeeded\n+ degraded\n : {'status': 'succeeded', 'indexed': 2, 'deleted': 0, 'warnings': [{'source': 'receipts/e3550fa5b10d8ff9e500abbf9d3ec1340a04a712664989146f2edc777c103e18.md', 'event_id': 'synthetic-event', 'reason': 'event id collision; indexed receipt preserved', 'differing_fields': ['summary'], 'stored_semantic': {'summary': 'Original summary', 'refs': ['notes/source.md']}, 'disk_semantic': {'summary': 'Different summary', 'refs': ['notes/source.md']}, 'stored_semantic_sha256': '5bdf7e8015fc6e5a89979930730ff98ece58a49da0c77b9c0ab42137c61f3df6', 'disk_semantic_sha256': '48afbc9a07290f82fc3730c76662684736770bea31c3c347137e62b03fff07b6', 'resolution': 'Compare summary and refs with the indexed receipt; back up both versions. Restore this source to the indexed summary/refs, or preserve the distinct event by submitting it with a new event_id. Do not delete either version blindly.'}], 'conflicts': []}\n"
+      ],
+      "candidate": "always_succeeded",
+      "repeat": 2,
+      "exit": 1,
+      "source_sha256": "c4cbfc75972bbae9be12b4cdc6e82c45f3721aac2fcd27710fb3f97398709475"
+    }
+  ],
+  "patch_sha256": "4562c6fa2fb315481fdfeb6d82dfbbda429da5b5cb298db3f0d9981f9467d665",
+  "product_exit": 0,
+  "mutation_kills": {
+    "full_payload_compare": true,
+    "skip_existing_receipts": true,
+    "always_succeeded": true
+  }
+}
