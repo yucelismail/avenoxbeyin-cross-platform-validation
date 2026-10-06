@@ -1,0 +1,18 @@
+{
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "python": "3.13.15",
+  "candidates": {
+    "main": "9b9aa95848b7dbee6ba13415c3615671d4445862",
+    "pr210": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+    "fixed": "bf7f993ffc90085cd5c430098e537bab72ddf8f6"
+  },
+  "status": "fixed_candidate_passed",
+  "fixed_base_sha": "bf7f993ffc90085cd5c430098e537bab72ddf8f6",
+  "fixed_patch_sha256": "945df08760eba854f0b5118b88085131db93d7a226cf9433d0a191a3b14aa4ce",
+  "fixed_product_tests_exit": 0,
+  "probe_sha256": "4a1728fc62438e602383a6e9462b58f65adc9af5135fcd4327247d304117c450",
+  "runs": 24,
+  "coverage_errors": 0,
+  "violating_runs": 10,
+  "fixed_violating_runs": 0
+}
