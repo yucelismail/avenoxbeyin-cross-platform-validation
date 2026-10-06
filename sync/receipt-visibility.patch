@@ -1,8 +1,24 @@
 diff --git a/template/.claude/scripts/beyin_v3_sync.py b/template/.claude/scripts/beyin_v3_sync.py
-index 9b4f770..cfa0f7f 100644
+index 9b4f770..035f553 100644
 --- a/template/.claude/scripts/beyin_v3_sync.py
 +++ b/template/.claude/scripts/beyin_v3_sync.py
-@@ -599,9 +599,14 @@ class SyncEngine:
+@@ -575,12 +575,9 @@ class SyncEngine:
+             receipts_dir = self._path('receipts')
+             if not receipts_dir.is_dir():
+                 return []
+-            # Every new source, local or synced from another device, is a new directory entry and
+-            # changes this signature; a fresh state has none stored. Warm syncs stop at one stat.
+-            stat = receipts_dir.stat()
+-            signature = f'{stat.st_dev}:{stat.st_ino}:{stat.st_mtime_ns}'
+-            if db.execute("SELECT 1 FROM metadata WHERE key='receipt_scan_signature' AND value=?", (signature,)).fetchone():
+-                return []
++            # Directory timestamps cannot detect in-place edits (or restored
++            # timestamps after transport). Inspect receipt contents on every sync.
++            # Do not trust legacy receipt_scan_signature entries from older state.
+             names = sorted(os.listdir(receipts_dir))
+         except (ValueError, OSError) as exc:
+             return [{'source': 'receipts', 'reason': str(exc)}]
+@@ -599,17 +596,18 @@ class SyncEngine:
                  row = db.execute('SELECT payload FROM receipts WHERE id=?', (event['event_id'],)).fetchone()
                  if row:
                      if row[0] != payload:
@@ -20,11 +36,84 @@ index 9b4f770..cfa0f7f 100644
                  else:
                      db.execute('INSERT OR IGNORE INTO receipts VALUES (?,?)', (event['event_id'], payload))
              except (ValueError, OSError, UnicodeError) as exc:
+                 warnings.append({'source': rel, 'reason': str(exc)})
+-        # Rescan while a source is invalid, and while an entry added in the same timestamp tick
+-        # (up to 2 s on FAT, 1 s on HFS+) could still hide behind an unchanged mtime.
+-        if not warnings and time.time_ns() - stat.st_mtime_ns > 2_000_000_000:
+-            db.execute("INSERT OR REPLACE INTO metadata VALUES ('receipt_scan_signature',?)", (signature,))
+         return warnings
+ 
+     def sync(self):
 diff --git a/tests/v3_sync_test.py b/tests/v3_sync_test.py
-index 0272b9f..e6badfc 100644
+index 0272b9f..0a7deb0 100644
 --- a/tests/v3_sync_test.py
 +++ b/tests/v3_sync_test.py
-@@ -913,9 +913,8 @@ class ReceiptStateResetTest(unittest.TestCase):
+@@ -854,19 +854,18 @@ class ReceiptStateResetTest(unittest.TestCase):
+         engine.receipt('event-1', 'Done.', ['notes/task.md'], 'codex')
+         self.assertEqual(engine.sync()['status'], 'succeeded')
+ 
+-    def test_warm_sync_skips_receipt_scan_until_directory_changes(self):
+-        """A warm sync stops at one stat of receipts/; any new entry changes its signature and is scanned."""
++    def test_warm_sync_detects_invalid_receipt_with_unchanged_directory_time(self):
++        """Restored directory timestamps must not hide invalid synced receipts."""
+         engine = self.module.SyncEngine(self.vault, self.root / 'state_warm')
+         engine.receipt('event-1', 'First device.', ['notes/task.md'], 'codex')
+         receipts_dir = self.vault / 'receipts'
+         past = (int(datetime.now().timestamp()) - 60) * 10**9
+-        os.utime(receipts_dir, ns=(past, past))  # Older than the same-tick window, so the signature is stored.
++        os.utime(receipts_dir, ns=(past, past))  # Exercise an aged directory, as with a previously warm cache.
+         self.assertEqual(engine.sync()['status'], 'succeeded')
+         crafted = receipts_dir / f'{self._hash("ev-crafted")}.md'
+         crafted.write_text('Not a receipt.\n', encoding='utf-8')
+-        os.utime(receipts_dir, ns=(past, past))  # Same signature: nothing is listed or parsed.
+-        self.assertEqual(engine.sync()['status'], 'succeeded')
+-        os.utime(receipts_dir)
++        os.utime(receipts_dir, ns=(past, past))  # Restored timestamp must not suppress validation.
++        self.assertEqual(engine.sync()['status'], 'degraded')
+         self.assertIn(f'receipts/{crafted.name}', {w['source'] for w in engine.sync()['warnings']})
+         crafted.unlink()
+         other = self.module.SyncEngine(self.vault, self.root / 'state_warm_other')
+@@ -875,8 +874,28 @@ class ReceiptStateResetTest(unittest.TestCase):
+         self.assertEqual(engine.sync()['conflicts'], [])
+         self.assertIn('Second device.', (self.vault / 'knowledge/v3/outcomes.md').read_text(encoding='utf-8'))
+ 
+-    def test_receipt_hidden_by_unchanged_directory_mtime_heals_on_next_sync(self):
+-        """Where a filesystem keeps the directory mtime, a missed receipt costs one conflicted sync, not a deadlock."""
++    def test_inplace_receipt_edit_ignores_legacy_directory_signature(self):
++        engine = self.module.SyncEngine(self.vault, self.root / 'state_inplace')
++        engine.receipt('event-inplace', 'Original event.', ['notes/task.md'], 'codex')
++        directory = self.vault / 'receipts'
++        stat = directory.stat()
++        with engine.store._connect() as db:
++            db.execute("INSERT OR REPLACE INTO metadata VALUES ('receipt_scan_signature',?)",
++                       (f'{stat.st_dev}:{stat.st_ino}:{stat.st_mtime_ns}',))
++        source = directory / f'{self._hash("event-inplace")}.md'
++        data = source.read_bytes()
++        self.assertEqual(engine.sync()['status'], 'succeeded')
++        source.write_bytes(data.replace(b'Original event.', b'Changed event.'))
++        self.assertEqual(directory.stat().st_mtime_ns, stat.st_mtime_ns)
++        changed = engine.sync()
++        self.assertEqual(changed['status'], 'degraded')
++        self.assertTrue(any(w['source'] == f'receipts/{source.name}' for w in changed['warnings']))
++        self.assertEqual(engine.sync()['warnings'], changed['warnings'])
++        source.write_bytes(data)
++        self.assertEqual(engine.sync()['status'], 'succeeded')
++
++    def test_new_receipt_with_restored_directory_time_is_seen_on_first_sync(self):
++        """A new synced receipt is adopted on the first sync even with restored timestamps."""
+         engine = self.module.SyncEngine(self.vault, self.root / 'state_heal')
+         engine.receipt('event-1', 'First device.', ['notes/task.md'], 'codex')
+         receipts_dir = self.vault / 'receipts'
+@@ -887,7 +906,7 @@ class ReceiptStateResetTest(unittest.TestCase):
+         self.assertEqual(other.sync()['conflicts'], [])
+         self.assertEqual(other.receipt('event-2', 'Second device.', ['notes/task.md'], 'codex')['status'], 'succeeded')
+         os.utime(receipts_dir, ns=(past, past))
+-        self.assertTrue(engine.sync()['conflicts'])
++        self.assertEqual(engine.sync()['status'], 'succeeded')
+         self.assertEqual(engine.sync()['conflicts'], [])
+         self.assertEqual(engine.receipt('event-3', 'Back in step.', ['notes/task.md'], 'codex')['status'], 'succeeded')
+ 
+@@ -913,9 +932,8 @@ class ReceiptStateResetTest(unittest.TestCase):
          if outcomes.exists():
              self.assertNotIn('<<<<<<<', outcomes.read_text(encoding='utf-8'))
  
@@ -36,7 +125,7 @@ index 0272b9f..e6badfc 100644
          state = self.root / 'state_recon'
          engine = self.module.SyncEngine(self.vault, state)
          engine.sync()
-@@ -934,13 +933,22 @@ class ReceiptStateResetTest(unittest.TestCase):
+@@ -934,13 +952,22 @@ class ReceiptStateResetTest(unittest.TestCase):
  
          report = engine.sync()
          self.assertEqual(report['conflicts'], [])

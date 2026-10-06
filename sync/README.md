@@ -23,14 +23,14 @@ Windows PowerShell:
 py -3 run_sync_validation.py
 ```
 
-Koşucu sabit commit'leri geçici dizine indirir ve 24 probe koşusu ve düzeltilmiş adayın 48 sync birim testini yapar. Sonunda
+Koşucu sabit commit'leri geçici dizine indirir ve 36 probe koşusu ve düzeltilmiş adayın 49 sync birim testini yapar. Sonunda
 `sync-validation-....zip` oluşur. ZIP'i paylaşın; yalnız ekran görüntüsü yeterli değildir.
 Bu sonuçlar iki fiziksel cihaz testi değil, her platformda iki bağımsız cihaz
 kopyasının sentetik entegrasyonudur. Gerçek ağ/cloud sync doğrulanmaz.
 
 ## Sonuçları yorumlama
 
-- `fixed_candidate_passed` / exit 0: düzeltilmiş adayın 8 probe koşusu ve 48 sync testi geçti; eski main/#210 başarısızlıkları raporda karşılaştırma olarak kalır.
+- `fixed_candidate_passed` / exit 0: düzeltilmiş adayın 12 probe koşusu ve 49 sync testi geçti; eski main/#210 başarısızlıkları raporda karşılaştırma olarak kalır.
 - `fixed_candidate_failed` / exit 1: düzeltilmiş aday probe veya sync birim testi kapısını geçemedi.
 - `coverage_failed` veya `setup_failed` / exit 2: kurulum/çalıştırma sorunu;
   ürün ihlali olarak yorumlanmaz.
@@ -56,5 +56,18 @@ cache mutabakatını değiştirir ve bakımcı değerlendirmesi gerektirir.
 
 Yama deneysel adaydır; upstream merge veya kullanıcı vault'una kurulum yapılmadı.
 Uyarıyı onaylama/onarım CLI'ı, state sıfırlamasında eski payload'ın kalıcılığı ve
-dizin mtime'ı değişmeyen düzenlemeler henüz çözülmedi. Bu sürüm S1–S10'un tamamını
+tam korunumu ve crash/CRLF senaryoları henüz tamamlanmadı. Bu sürüm S1–S10'un tamamını
 geçmiş bir üretim çözümü olarak sunulmaz.
+
+## İkinci adım: sıcak tarama önbelleği
+
+İki ek senaryo var: `inplace_changed` ve `inplace_same`. Önce receipt klasörü
+yaşlandırılır ve temiz sync çalıştırılır. Sonra mevcut dosyaya yerinde yazılır;
+klasör `mtime_ns` değerinin değişmediği koşucu tarafından doğrulanır. Değişen
+payload uyarılmalı, aynı payload temiz başarıyla devam etmelidir.
+
+İlk aday `f9c22b4` değişen payload senaryosunu iki tekrarda kaçırdı (S3/S4).
+Yeni aday `_scan_receipts` içindeki yalnız klasör zamanına dayanan erken dönüşü
+kaldırır; eski state içindeki `receipt_scan_signature` değerlerini kullanmaz.
+Her sync receipt içeriklerini yeniden okur. Maliyet receipt sayısı/içerik boyutuyla
+artar; ilerideki optimizasyon bu güvenlik özelliklerini korumalıdır.

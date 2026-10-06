@@ -79,7 +79,15 @@ def probe(repo, case):
         initial = snapshot(a)
         original = (a.root / source).read_bytes()
         incoming = (b.root / source).read_bytes()
-        if case == 'same_payload':
+        inplace = case in ('inplace_changed', 'inplace_same')
+        directory_mtime = None
+        if inplace:
+            os.utime(a.root / 'receipts', (1_700_000_000, 1_700_000_000))
+            warm = a.sync()
+            if warm['status'] != 'succeeded':
+                raise RuntimeError('warm fixture failed')
+            directory_mtime = (a.root / 'receipts').stat().st_mtime_ns
+        if case in ('same_payload', 'inplace_same'):
             incoming = original
         transport_evidence = None
         if git_transport:
@@ -98,6 +106,12 @@ def probe(repo, case):
                                   'resolved_to_incoming': target.read_bytes() == incoming}
             if not marker_present:
                 raise RuntimeError('merge did not produce conflict markers')
+        elif inplace:
+            target = a.root / source
+            target.write_bytes(incoming)
+            if (a.root / 'receipts').stat().st_mtime_ns != directory_mtime:
+                raise RuntimeError('in-place write changed directory mtime; fixture invalid')
+            transport_evidence = {'directory_mtime_unchanged': True}
         elif case == 'conflict_copy':
             target = a.root / source.replace('.md', ' 2.md')
             target.write_bytes(incoming)
@@ -110,12 +124,13 @@ def probe(repo, case):
             os.replace(staging, target)
         # Freeze receipt-directory age so both scans exercise their warm-cache
         # signature optimization without sleeps. Entry replacement is explicit.
-        os.utime(a.root / 'receipts', (1_700_000_000, 1_700_000_000))
+        if not inplace:
+            os.utime(a.root / 'receipts', (1_700_000_000, 1_700_000_000))
         first = a.sync()
         after = snapshot(a)
         second = a.sync()
         final = snapshot(a)
-        changed = case in ('replacement', 'git_add_add')
+        changed = case in ('replacement', 'git_add_add', 'inplace_changed')
         db_changed = initial['events'] != after['events']
         invariants = {
             'S2': not changed or not db_changed or visible(first, source),
@@ -127,7 +142,7 @@ def probe(repo, case):
             'S10': first['status'] in ('succeeded', 'degraded', 'conflict') and
                    second['status'] in ('succeeded', 'degraded', 'conflict'),
         }
-        if case == 'same_payload':
+        if case in ('same_payload', 'inplace_same'):
             invariants['positive_control'] = first['status'] == 'succeeded' and after == initial
         if case == 'conflict_copy':
             copy_source = target.relative_to(a.root).as_posix()
@@ -151,7 +166,7 @@ def probe(repo, case):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo', type=Path, required=True)
-    parser.add_argument('--case', choices=('same_payload', 'replacement', 'conflict_copy', 'git_add_add'), required=True)
+    parser.add_argument('--case', choices=('same_payload', 'replacement', 'conflict_copy', 'git_add_add', 'inplace_changed', 'inplace_same'), required=True)
     args = parser.parse_args()
     try:
         result = probe(args.repo.resolve(), args.case)

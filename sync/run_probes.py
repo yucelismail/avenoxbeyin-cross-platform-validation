@@ -8,6 +8,7 @@ import platform
 import subprocess
 import sys
 
+CASES = ('same_payload', 'replacement', 'conflict_copy', 'git_add_add', 'inplace_changed', 'inplace_same')
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -23,7 +24,7 @@ def main():
     rows = []
     for entry in args.candidate:
         label, checkout = entry.split('=', 1)
-        for case in ('same_payload', 'replacement', 'conflict_copy', 'git_add_add'):
+        for case in CASES:
             for repeat in range(1, args.repeat + 1):
                 try:
                     proc = subprocess.run([sys.executable, str(probe), '--repo', checkout, '--case', case],

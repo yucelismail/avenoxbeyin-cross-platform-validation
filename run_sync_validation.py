@@ -11,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import zipfile
+from sync.run_probes import CASES
 
 ROOT = Path(__file__).resolve().parent
 CANDIDATES = {'main': '9b9aa95848b7dbee6ba13415c3615671d4445862',
@@ -85,7 +86,9 @@ def main():
             fixed_rows = [r for r in rows if r['candidate'] == 'fixed']
             fixed_failed = sum(any(v is False for v in r.get('invariants', {}).values()) for r in fixed_rows)
             summary['fixed_violating_runs'] = fixed_failed
-            summary['status'] = ('coverage_failed' if manifest['coverage_errors'] or len(fixed_rows) != 8 else
+            expected = {(case, repeat) for case in CASES for repeat in (1, 2)}
+            observed = {(r['case'], r['repeat']) for r in fixed_rows}
+            summary['status'] = ('coverage_failed' if manifest['coverage_errors'] or observed != expected or len(fixed_rows) != len(expected) else
                                  'fixed_candidate_failed' if fixed_failed or product.returncode else
                                  'fixed_candidate_passed')
             details = ['## Multi-device sync probe results', '',
