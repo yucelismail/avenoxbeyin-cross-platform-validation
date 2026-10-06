@@ -1,5 +1,12 @@
 # Avenox Beyin companion-compact platform doğrulaması
 
+## Yeni: çoklu cihaz sync deneyleri
+
+Receipt bütünlüğü, conflict-copy ve gerçek Git add/add entegrasyon testleri
+[sync yönergelerinde](sync/README.md). macOS ve Windows için ayrı çalıştırma
+komutları ve GitHub Actions platform matrisi eklendi. Bu paket aşağıdaki
+#198 compact doğrulamasından bağımsızdır.
+
 Bu depo #193 veri kaybı düzeltme adayını Windows ve macOS üzerinde aynı şekilde sınar.
 Çalıştırıcı resmi `avenoxai/avenoxbeyin` deposunu sabit `9b9aa95` commit'inde geçici
 bir klasöre indirir, `candidate.patch` dosyasını uygular ve sentetik vault/state

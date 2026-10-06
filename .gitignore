@@ -1,5 +1,7 @@
 results/
 validation-result-*.zip
+sync-validation-*/
+sync-validation-*.zip
 _work/
 __pycache__/
 *.pyc
