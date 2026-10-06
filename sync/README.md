@@ -23,7 +23,7 @@ Windows PowerShell:
 py -3 run_sync_validation.py
 ```
 
-Koşucu sabit commit'leri geçici dizine indirir ve 36 probe koşusu ve düzeltilmiş adayın 49 sync birim testini yapar. Sonunda
+Koşucu sabit commit'leri geçici dizine indirir ve 96 probe koşusu ve düzeltilmiş adayın 49 sync birim testini yapar. Sonunda
 `sync-validation-....zip` oluşur. ZIP'i paylaşın; yalnız ekran görüntüsü yeterli değildir.
 Bu sonuçlar iki fiziksel cihaz testi değil, her platformda iki bağımsız cihaz
 kopyasının sentetik entegrasyonudur. Gerçek ağ/cloud sync doğrulanmaz.
@@ -71,3 +71,19 @@ Yeni aday `_scan_receipts` içindeki yalnız klasör zamanına dayanan erken dö
 kaldırır; eski state içindeki `receipt_scan_signature` değerlerini kullanmaz.
 Her sync receipt içeriklerini yeniden okur. Maliyet receipt sayısı/içerik boyutuyla
 artar; ilerideki optimizasyon bu güvenlik özelliklerini korumalıdır.
+
+## Üçüncü adım: negatif kontroller
+
+Normal aday ve tarihsel karşılaştırmalara ek olarak beş mutant ayrı geçici
+checkout'ta koşar: `silent_receipt_update`, `skip_receipt_rescan`,
+`no_conflict_copy_filter`, `always_succeeded`, `delete_quarantined_note_copy`.
+Son ikisiyle birlikte conflict-copy mutantları **note** korumasını değiştirir;
+receipt hash-ad filtresinin bütün biçimlerini mutasyonla kapsadığımız iddia edilmez.
+
+Her mutant altı senaryoda ikişer kez çalışır. Gate yalnız normal aday geçtiğinde
+ve her mutantın hedef invariant'ı iki tekrarda exit 1 ile ihlal ettiğinde geçer.
+Kurulum hatası, timeout, eksik vaka veya bozuk mutation anchor başarı sayılmaz.
+Ham JSONL ve kaynak hash'li `mutants.json` ZIP içindedir.
+
+Bu adım ürün koduna yeni bir özellik eklemez; test aracının hatayı yakalama
+duyarlılığını doğrular. Crash/CRLF ve tam korunumu henüz kapsamaz.
